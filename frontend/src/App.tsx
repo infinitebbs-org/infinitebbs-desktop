@@ -1,27 +1,26 @@
 import { onMount, Show } from "solid-js"
-import "./App.css"
-import Login from "./pages/login/Login"
-import Home from "./pages/home/Home"
-import { isLoggedIn, currentUser, checkAuthStatus, logout } from "./utils/auth"
-import { Toaster } from "solid-toast"
+import Login from "@/pages/login/Login"
+import { isLoggedIn, checkAuthStatus } from "@/store/auth"
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow"
+import "./App.css"
+import { RouterProps } from "@solidjs/router"
+import Layout from "./components/layout/Layout"
 
-function App() {
-  let main = getCurrentWebviewWindow()
+const App = (props: RouterProps) => {
+    let main = getCurrentWebviewWindow()
 
-  onMount(() => {
-    main.show()
-    checkAuthStatus()
-  })
+    onMount(() => {
+        main.show()
+        checkAuthStatus()
+    })
 
-  return (
-    <main class="container">
-      <Show when={isLoggedIn()} fallback={<Login />}>
-        <Home username={currentUser()} onLogout={logout} />
-      </Show>
-      <Toaster />
-    </main>
-  )
+    return (
+        <main class="container">
+            <Show when={isLoggedIn()} fallback={<Login />}>
+                <Layout {...props} />
+            </Show>
+        </main>
+    )
 }
 
 export default App

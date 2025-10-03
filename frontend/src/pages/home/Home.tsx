@@ -1,26 +1,32 @@
 import "./Home.css"
+import { logout } from "@/store/auth"
+import { onMount } from "solid-js"
+import { userState, fetchUserInfo } from "@/store/user"
+import { A } from "@solidjs/router"
 
-interface HomeProps {
-  username: string
-  onLogout: () => void
-}
+const Home = () => {
+    onMount(async () => {
+        await fetchUserInfo()
+    })
 
-function Home(props: HomeProps) {
-  return (
-    <div class="home-page">
-      <header class="home-header">
-        <h1>欢迎来到 InfiniteBBS</h1>
-        <div class="user-info">
-          <span>当前用户: {props.username}</span>
-          <button onClick={props.onLogout}>退出登录</button>
+    return (
+        <div class="home-page">
+            <header class="home-header">
+                <h1>欢迎来到 InfiniteBBS</h1>
+                <div class="user-info">
+                    <span>
+                        当前用户: {userState.user?.info.name || "加载中..."}
+                    </span>
+                    <button onClick={logout}>退出登录</button>
+                </div>
+            </header>
+            <main class="home-content">
+                <h2>首页内容</h2>
+                <p>您已成功登录！</p>
+                <A href="/profile">查看用户资料</A>
+            </main>
         </div>
-      </header>
-      <main class="home-content">
-        <h2>首页内容</h2>
-        <p>您已成功登录！</p>
-      </main>
-    </div>
-  )
+    )
 }
 
 export default Home

@@ -1,0 +1,63 @@
+/* Layout specific styles (sidebar + content) */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 140px;
+    background: #fff;
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 24px 12px;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.02);
+    flex-shrink: 0;
+}
+
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0; /* remove default ul padding */
+    list-style: none; /* remove bullets */
+}
+
+.nav-item {
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #333;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    background: #f4f6fb;
+    color: #1d4ed8;
+}
+
+.icon {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    color: #6b7280; /* neutral icon color */
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-link:hover .icon {
+    color: #1d4ed8;
+}
+
+.nav-label {
+    font-size: 14px;
+}
+
+.content {
+    flex: 1 1 auto;
+    padding: 32px;
+}
