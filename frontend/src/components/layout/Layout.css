@@ -1,63 +1,85 @@
-/* Layout specific styles (sidebar + content) */
+/* Layout specific styles (sidebar + content-area) */
 .layout {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
 }
 
 .sidebar {
-    width: 140px;
     background: #fff;
-    border-right: 1px solid rgba(0, 0, 0, 0.06);
-    padding: 24px 12px;
-    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.02);
+    padding: 4px 8px;
     flex-shrink: 0;
-}
-
-.nav-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin: 0;
-    padding: 0; /* remove default ul padding */
-    list-style: none; /* remove bullets */
+    gap: 4px;
 }
 
-.nav-item {
+.sidebar .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    align-self: center;
+    border: 1px solid #00aeff4d;
+    box-sizing: border-box;
 }
 
+.nav-item,
 .nav-link {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    color: #333;
-    font-weight: 600;
-}
-
-.nav-link:hover {
-    background: #f4f6fb;
-    color: #1d4ed8;
-}
-
-.icon {
-    display: inline-flex;
-    width: 20px;
-    height: 20px;
-    color: #6b7280; /* neutral icon color */
-    align-items: center;
     justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
 }
 
-.nav-link:hover .icon {
-    color: #1d4ed8;
+.nav-item {
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    background: #f4f6fb;
+}
+
+.nav-link.active {
+    background: #e0e7ff;
+}
+
+.nav-item img,
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    color: #6b7280;
 }
 
 .nav-label {
     font-size: 14px;
 }
 
-.content {
+.content-area {
     flex: 1 1 auto;
-    padding: 32px;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-bar {
+    height: 24px;
+    padding: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.content {
+    flex: 1;
+    background: #fdf7f3;
+    overflow-y: auto;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border-radius: 8px;
 }

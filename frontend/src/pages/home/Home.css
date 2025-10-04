@@ -1,62 +1,140 @@
-.home-page {
+.home {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
-.home-header {
-    padding: 1rem 2rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.home-header h1 {
-    margin: 0;
-    font-size: 1.5rem;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.user-info span {
-    font-size: 0.9rem;
-}
-
-.user-info button {
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.user-info button:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-1px);
-}
-
-.home-content {
+.topics-container {
     flex: 1;
-    padding: 2rem;
     overflow-y: auto;
+    padding: 0;
 }
 
-.home-content h2 {
-    color: #333;
-    margin-bottom: 1rem;
+.topics-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
 }
 
-.home-content p {
+.topics-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.topics-table th {
+    padding: 12px 20px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
     color: #666;
-    line-height: 1.6;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.col-topic {
+    width: 58.33%; /* 14/24 */
+}
+
+.col-users {
+    width: 16.67%; /* 4/24 */
+    text-align: center;
+}
+
+.col-reply,
+.col-view,
+.col-activity {
+    width: 8.33%; /* 2/24 */
+    text-align: center;
+}
+
+.topics-table th.col-users,
+.topics-table th.col-reply,
+.topics-table th.col-view,
+.topics-table th.col-activity {
+    text-align: center;
+}
+
+.topic-row {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+}
+
+.topic-row td {
+    padding: 16px 20px;
+}
+
+.topic-cell {
+    max-width: 0;
+    width: 100%;
+}
+
+.topic-title {
+    margin: 0 0 6px 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.topic-title:hover {
+    color: #1890ff;
+}
+
+.users-cell {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.user-avatars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.reply-cell,
+.view-cell,
+.activity-cell {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.reply-cell .stat-number {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fa8c16;
+}
+
+.view-cell .stat-number {
+    font-size: 18px;
+    font-weight: 600;
+    color: #52c41a;
+}
+
+.activity-cell {
+    font-size: 13px;
+    color: #999;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
 }

@@ -1,18 +1,33 @@
-import { createSignal, Show } from "solid-js"
+import { createSignal, Show, onMount } from "solid-js"
 import toast from "solid-toast"
 import { loginApi, registerApi } from "@/api/auth"
-import { login } from "@/store/auth"
+import { getAccessToken, login, logout } from "@/store/auth"
+import { useNavigate } from "@solidjs/router"
+import { fetchUserInfo, userState } from "@/store/user"
 
 import "./Login.css"
 
 type AuthMode = "login" | "register"
 
 const Login = () => {
+    const navigate = useNavigate()
+
     const [authMode, setAuthMode] = createSignal<AuthMode>("login")
     const [username, setUsername] = createSignal("")
     const [password, setPassword] = createSignal("")
     const [confirmPassword, setConfirmPassword] = createSignal("")
     const [isLoading, setIsLoading] = createSignal(false)
+    const [isCheckingAuth, setIsCheckingAuth] = createSignal(true)
+
+    onMount(async () => {
+        if (getAccessToken()) {
+            await fetchUserInfo()
+            if (!userState.user) {
+                logout()
+            }
+        }
+        setIsCheckingAuth(false)
+    })
 
     const handleLogin = async (): Promise<void> => {
         // 验证输入
@@ -32,7 +47,9 @@ const Login = () => {
             if (result.success && result.data) {
                 // 登录成功，保存登录状态
                 login(result.data.access_token)
+                await fetchUserInfo()
                 toast.success(`登录成功！`)
+                navigate("/")
             } else {
                 toast.error(result.message || "登录失败")
             }
@@ -44,7 +61,6 @@ const Login = () => {
     }
 
     const handleRegister = async (): Promise<void> => {
-        // 验证输入
         if (!username() || !password() || !confirmPassword()) {
             toast.error("请填写完整注册信息")
             return
@@ -86,64 +102,74 @@ const Login = () => {
 
     return (
         <div class="auth-page">
-            {/* 顶部选择器 */}
-            <div class="auth-mode-selector">
-                <button
-                    type="button"
-                    class={authMode() === "login" ? "active" : ""}
-                    onClick={() => setAuthMode("login")}
-                    disabled={isLoading()}
-                >
-                    登录
-                </button>
-                <button
-                    type="button"
-                    class={authMode() === "register" ? "active" : ""}
-                    onClick={() => setAuthMode("register")}
-                    disabled={isLoading()}
-                >
-                    注册
-                </button>
-            </div>
+            <Show
+                when={!isCheckingAuth()}
+                fallback={
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <p>正在验证登录状态...</p>
+                    </div>
+                }
+            >
+                {/* 顶部选择器 */}
+                <div class="auth-mode-selector">
+                    <button
+                        type="button"
+                        class={authMode() === "login" ? "active" : ""}
+                        onClick={() => setAuthMode("login")}
+                        disabled={isLoading()}
+                    >
+                        登录
+                    </button>
+                    <button
+                        type="button"
+                        class={authMode() === "register" ? "active" : ""}
+                        onClick={() => setAuthMode("register")}
+                        disabled={isLoading()}
+                    >
+                        注册
+                    </button>
+                </div>
 
-            <form class="login-container" onSubmit={handleSubmit}>
-                <input
-                    id="username-input"
-                    type="text"
-                    value={username()}
-                    onInput={(e) => setUsername(e.currentTarget.value)}
-                    placeholder="用户名"
-                    disabled={isLoading()}
-                    autocomplete="off"
-                />
-                <input
-                    id="password-input"
-                    type="password"
-                    value={password()}
-                    onInput={(e) => setPassword(e.currentTarget.value)}
-                    placeholder="密码"
-                    disabled={isLoading()}
-                />
-                <Show when={authMode() === "register"}>
+                <form class="login-container" onSubmit={handleSubmit}>
                     <input
-                        id="confirm-password-input"
+                        id="username-input"
+                        type="text"
+                        value={username()}
+                        onInput={(e) => setUsername(e.currentTarget.value)}
+                        placeholder="用户名"
+                        disabled={isLoading()}
+                        autocomplete="off"
+                    />
+                    <input
+                        id="password-input"
                         type="password"
-                        value={confirmPassword()}
-                        onInput={(e) =>
-                            setConfirmPassword(e.currentTarget.value)
-                        }
-                        placeholder="确认密码"
+                        value={password()}
+                        onInput={(e) => setPassword(e.currentTarget.value)}
+                        placeholder="密码"
                         disabled={isLoading()}
                     />
-                </Show>
-                <button type="submit" disabled={isLoading()}>
-                    {isLoading()
-                        ? "处理中..."
-                        : authMode() === "login"
-                        ? "登录"
-                        : "注册"}
-                </button>
-            </form>
+                    <Show when={authMode() === "register"}>
+                        <input
+                            id="confirm-password-input"
+                            type="password"
+                            value={confirmPassword()}
+                            onInput={(e) =>
+                                setConfirmPassword(e.currentTarget.value)
+                            }
+                            placeholder="确认密码"
+                            disabled={isLoading()}
+                        />
+                    </Show>
+                    <button type="submit" disabled={isLoading()}>
+                        {isLoading()
+                            ? "处理中..."
+                            : authMode() === "login"
+                            ? "登录"
+                            : "注册"}
+                    </button>
+                </form>
+            </Show>
         </div>
     )
 }

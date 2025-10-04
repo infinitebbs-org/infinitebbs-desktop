@@ -5,7 +5,6 @@
     font-weight: 400;
 
     color: #0f0f0f;
-    background-color: #fdf7f3;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -17,8 +16,8 @@
 body {
     margin: 0;
     padding: 0;
-    min-height: 100vh;
-    background-color: #fcf7f3;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .container {

@@ -1,29 +1,39 @@
 import { RouterProps } from "@solidjs/router"
 import { JSX } from "solid-js"
 import { A } from "@solidjs/router"
-import { HiOutlineHome, HiOutlineUser } from "solid-icons/hi"
 import "./Layout.css"
+import editorStore from "@/store/editor"
 
 const Layout = (props: RouterProps) => {
     return (
         <div class="layout">
             <aside class="sidebar" role="navigation" aria-label="主导航">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <A href="/home" class="nav-link">
-                            <HiOutlineHome class="icon" />
-                            <span class="nav-label">话题</span>
-                        </A>
-                    </li>
-                    <li class="nav-item">
-                        <A href="/profile" class="nav-link">
-                            <HiOutlineUser class="icon" />
-                            <span class="nav-label">用户信息</span>
-                        </A>
-                    </li>
-                </ul>
+                <div class="user-avatar">
+                    <A href="/profile">
+                        <img
+                            src="https://picsum.photos/100/100"
+                            alt="用户头像"
+                        />
+                    </A>
+                </div>
+                <div class="nav-item">
+                    <A
+                        href="/"
+                        class="nav-link"
+                        activeClass="active"
+                        end={true}
+                    >
+                        <img src="/layers.svg" alt="话题" class="nav-icon" />
+                    </A>
+                </div>
+                <div class="nav-item" onClick={editorStore.actions.openEditor}>
+                    <img src="/edit.svg" alt="新建" class="nav-icon" />
+                </div>
             </aside>
-            <main class="content">{props.children as JSX.Element}</main>
+            <div class="content-area">
+                <header class="top-bar">无限论坛</header>
+                <main class="content">{props.children as JSX.Element}</main>
+            </div>
         </div>
     )
 }
