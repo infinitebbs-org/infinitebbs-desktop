@@ -1,0 +1,26 @@
+.topic-page {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.posts-container h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.posts-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.loading,
+.error {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+}
+
+.error {
+    color: #dc3545;
+}

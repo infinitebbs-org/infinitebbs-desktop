@@ -5,6 +5,7 @@ import { Router } from "@solidjs/router"
 
 import Home from "./pages/home/Home"
 import Profile from "./pages/profile/Profile"
+import Topic from "./pages/topic/Topic"
 import { Toaster } from "solid-toast"
 
 const routes = [
@@ -15,6 +16,10 @@ const routes = [
     {
         path: "/profile",
         component: Profile,
+    },
+    {
+        path: "/topic/:id",
+        component: Topic,
     },
 ]
 

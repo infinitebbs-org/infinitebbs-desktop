@@ -68,6 +68,7 @@
 .topic-cell {
     max-width: 0;
     width: 100%;
+    text-align: left;
 }
 
 .topic-title {

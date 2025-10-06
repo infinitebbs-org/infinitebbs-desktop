@@ -1,4 +1,5 @@
 import { createSignal, onMount, onCleanup, For, Show } from "solid-js"
+import { A } from "@solidjs/router"
 import { getTopics, Topic } from "@/api/topic"
 
 import "./Home.css"
@@ -69,9 +70,12 @@ const Home = () => {
                             {(topic) => (
                                 <tr class="topic-row">
                                     <td class="topic-cell">
-                                        <h3 class="topic-title">
+                                        <A
+                                            href={`/topic/${topic.id}`}
+                                            class="topic-title"
+                                        >
                                             {topic.title}
-                                        </h3>
+                                        </A>
                                     </td>
                                     <td class="users-cell">
                                         <div class="user-avatars">
