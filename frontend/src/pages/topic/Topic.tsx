@@ -1,6 +1,7 @@
 import { createSignal, onMount, For, Show } from "solid-js"
 import { useParams } from "@solidjs/router"
 import { getPostsByTopicId, Post } from "@/api/post"
+import { viewTopic } from "@/api/topic"
 import PostItem from "@/components/post/PostItem"
 
 import "./Topic.css"
@@ -18,6 +19,7 @@ const Topic = () => {
             const response = await getPostsByTopicId(topicId())
             if (response.success && response.data) {
                 setPosts(response.data.posts)
+                await viewTopic(topicId())
             } else {
                 setError("加载帖子失败")
             }

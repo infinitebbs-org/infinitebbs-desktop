@@ -1,5 +1,6 @@
 import { Post } from "@/api/post"
 import "./PostItem.css"
+import editorStore from "@/store/editor"
 
 interface PostItemProps {
     post: Post
@@ -38,7 +39,17 @@ const PostItem = (props: PostItemProps) => {
                     <div class="post-action-btn" title="点赞">
                         <img src="/like.svg" alt="点赞" class="action-icon" />
                     </div>
-                    <div class="post-action-btn" title="回复">
+                    <div
+                        class="post-action-btn"
+                        title="回复"
+                        onClick={() =>
+                            editorStore.actions.openEditor(
+                                "reply",
+                                props.post.topic_id,
+                                props.post.post_number
+                            )
+                        }
+                    >
                         <img src="/reply.svg" alt="回复" class="action-icon" />
                     </div>
                 </div>

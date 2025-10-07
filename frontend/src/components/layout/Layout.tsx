@@ -26,12 +26,15 @@ const Layout = (props: RouterProps) => {
                         <img src="/layers.svg" alt="话题" class="nav-icon" />
                     </A>
                 </div>
-                <div class="nav-item" onClick={editorStore.actions.openEditor}>
+                <div
+                    class="nav-item"
+                    onClick={() => editorStore.actions.openEditor("create")}
+                >
                     <img src="/edit.svg" alt="新建" class="nav-icon" />
                 </div>
             </aside>
             <div class="content-area">
-                <header class="top-bar">无限论坛</header>
+                <header class="top-bar"></header>
                 <main class="content">{props.children as JSX.Element}</main>
             </div>
         </div>

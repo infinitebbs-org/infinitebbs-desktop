@@ -52,17 +52,25 @@ const Editor = () => {
                     ></div>
                     <div class="editor-content">
                         <div class="editor-input">
-                            <input
-                                type="text"
-                                placeholder="输入标题"
-                                class="editor-title"
-                                value={editorStore.state.title}
-                                onInput={(e) =>
-                                    editorStore.actions.setTitle(e.target.value)
-                                }
-                            />
+                            {editorStore.state.mode === "create" && (
+                                <input
+                                    type="text"
+                                    placeholder="输入标题"
+                                    class="editor-title"
+                                    value={editorStore.state.title}
+                                    onInput={(e) =>
+                                        editorStore.actions.setTitle(
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                            )}
                             <textarea
-                                placeholder="输入话题内容..."
+                                placeholder={
+                                    editorStore.state.mode === "create"
+                                        ? "输入话题内容..."
+                                        : "输入回复内容..."
+                                }
                                 class="editor-textarea"
                                 value={editorStore.state.content}
                                 onInput={(e) =>
@@ -76,7 +84,9 @@ const Editor = () => {
                                     class="publish-btn"
                                     onClick={editorStore.actions.publish}
                                 >
-                                    创建话题
+                                    {editorStore.state.mode === "create"
+                                        ? "创建话题"
+                                        : "回复"}
                                 </button>
                                 <button
                                     class="cancel-btn"
