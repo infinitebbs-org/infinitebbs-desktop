@@ -1,5 +1,5 @@
-import { post } from "./client"
 import type { ApiResponse } from "./client"
+import { get, post } from "./client"
 
 // 认证相关的类型定义
 export interface UserBaseRequest {
@@ -28,5 +28,5 @@ export const registerApi = async (
 
 // 登出接口
 export const logoutApi = async (): Promise<ApiResponse> => {
-    return post("/auth/logout")
+    return get("/auth/logout")
 }

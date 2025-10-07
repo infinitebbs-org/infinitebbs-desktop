@@ -107,3 +107,7 @@
     object-fit: contain;
     filter: grayscale(100%);
 }
+
+.action-icon.active {
+    filter: none;
+}

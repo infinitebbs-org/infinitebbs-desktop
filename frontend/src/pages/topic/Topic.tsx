@@ -1,10 +1,12 @@
-import { createSignal, onMount, For, Show } from "solid-js"
+import "./Topic.css"
+
 import { useParams } from "@solidjs/router"
+import { createSignal, For, onMount, Show } from "solid-js"
+
 import { getPostsByTopicId, Post } from "@/api/post"
+import { getReactionsForTopic, Reaction } from "@/api/reaction"
 import { viewTopic } from "@/api/topic"
 import PostItem from "@/components/post/PostItem"
-
-import "./Topic.css"
 
 const Topic = () => {
     const params = useParams()
@@ -13,6 +15,7 @@ const Topic = () => {
     const [posts, setPosts] = createSignal<Post[]>([])
     const [isLoading, setIsLoading] = createSignal(true)
     const [error, setError] = createSignal<string | null>(null)
+    const [userReactions, setUserReactions] = createSignal<Reaction[]>([])
 
     onMount(async () => {
         try {
@@ -20,6 +23,10 @@ const Topic = () => {
             if (response.success && response.data) {
                 setPosts(response.data.posts)
                 await viewTopic(topicId())
+
+                // 获取反应数据
+                const reactions = await getReactionsForTopic(topicId())
+                setUserReactions(reactions)
             } else {
                 setError("加载帖子失败")
             }
@@ -43,7 +50,18 @@ const Topic = () => {
                 <div class="posts-container">
                     <div class="posts-list">
                         <For each={posts()}>
-                            {(post) => <PostItem post={post} />}
+                            {(post) => (
+                                <PostItem
+                                    post={post}
+                                    Reactions={() =>
+                                        userReactions().filter(
+                                            (reaction) =>
+                                                reaction.post_number ===
+                                                post.post_number
+                                        )
+                                    }
+                                />
+                            )}
                         </For>
                     </div>
                 </div>

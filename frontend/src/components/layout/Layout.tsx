@@ -1,7 +1,9 @@
-import { RouterProps } from "@solidjs/router"
-import { JSX } from "solid-js"
-import { A } from "@solidjs/router"
 import "./Layout.css"
+
+import { RouterProps } from "@solidjs/router"
+import { A } from "@solidjs/router"
+import { JSX } from "solid-js"
+
 import editorStore from "@/store/editor"
 
 const Layout = (props: RouterProps) => {
@@ -34,7 +36,7 @@ const Layout = (props: RouterProps) => {
                 </div>
             </aside>
             <div class="content-area">
-                <header class="top-bar"></header>
+                <header class="top-bar" />
                 <main class="content">{props.children as JSX.Element}</main>
             </div>
         </div>

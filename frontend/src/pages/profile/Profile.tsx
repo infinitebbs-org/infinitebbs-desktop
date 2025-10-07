@@ -1,6 +1,8 @@
-import { fetchUserInfo, userState } from "@/store/user"
 import "./Profile.css"
+
 import { onMount } from "solid-js"
+
+import { fetchUserInfo, logout,userState } from "@/store/user"
 
 const Profile = () => {
     onMount(() => {
@@ -118,6 +120,13 @@ const Profile = () => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* 登出按钮 */}
+                        <div class="logout-section">
+                            <button class="logout-button" onClick={logout}>
+                                登出
+                            </button>
                         </div>
                     </>
                 )}

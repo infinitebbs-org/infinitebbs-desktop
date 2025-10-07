@@ -1,6 +1,7 @@
 import { createStore } from "solid-js/store"
-import { createTopic, CreateTopicRequest, replyToTopic, CreatePostRequest } from "@/api/topic"
 import toast from "solid-toast"
+
+import { CreatePostRequest,createTopic, CreateTopicRequest, replyToTopic } from "@/api/topic"
 
 interface EditorState {
     isOpen: boolean

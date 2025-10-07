@@ -1,11 +1,12 @@
-import { createSignal, Show, onMount } from "solid-js"
+import "./Login.css"
+
+import { useNavigate } from "@solidjs/router"
+import { createSignal, onMount,Show } from "solid-js"
 import toast from "solid-toast"
+
 import { loginApi, registerApi } from "@/api/auth"
 import { getAccessToken, login, logout } from "@/store/auth"
-import { useNavigate } from "@solidjs/router"
 import { fetchUserInfo, userState } from "@/store/user"
-
-import "./Login.css"
 
 type AuthMode = "login" | "register"
 
@@ -106,7 +107,7 @@ const Login = () => {
                 when={!isCheckingAuth()}
                 fallback={
                     <div class="loading-container">
-                        <div class="loading-spinner"></div>
+                        <div class="loading-spinner" />
                         <p>正在验证登录状态...</p>
                     </div>
                 }

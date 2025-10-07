@@ -1,4 +1,4 @@
-import { post, get } from "./client"
+import { get,post } from "./client"
 
 // 创建主题的请求接口
 export interface CreateTopicRequest {
@@ -32,7 +32,6 @@ export interface Topic {
     updated_at: string
 }
 
-// 获取主题列表的响应接口
 export interface GetTopicsResponse {
     topics: Topic[]
     total: number

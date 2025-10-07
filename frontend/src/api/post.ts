@@ -8,7 +8,7 @@ export interface Post {
     created_at: string
 }
 
-import { get, ApiResponse } from "./client"
+import { ApiResponse,get } from "./client"
 
 // 根据 topic_id 获取所有 posts
 export const getPostsByTopicId = async (topicId: number): Promise<ApiResponse<{ posts: Post[]; total: number }>> => {

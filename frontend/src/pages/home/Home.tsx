@@ -1,8 +1,9 @@
-import { createSignal, onMount, onCleanup, For, Show } from "solid-js"
-import { A } from "@solidjs/router"
-import { getTopics, Topic } from "@/api/topic"
-
 import "./Home.css"
+
+import { A } from "@solidjs/router"
+import { createSignal, For, onCleanup, onMount, Show } from "solid-js"
+
+import { getTopics, Topic } from "@/api/topic"
 
 const Home = () => {
     const [topics, setTopics] = createSignal<Topic[]>([])

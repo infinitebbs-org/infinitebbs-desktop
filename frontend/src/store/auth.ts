@@ -24,6 +24,10 @@ export const getAccessToken = (): string | null => {
     return localStorage.getItem("access_token")
 }
 
+export const removeAccessToken = (): void => {
+    localStorage.removeItem("access_token")
+}
+
 // 登录成功后调用
 export const login = (token: string): void => {
     localStorage.setItem("access_token", token)

@@ -1,9 +1,33 @@
-import { Post } from "@/api/post"
 import "./PostItem.css"
+
+import toast from "solid-toast"
+
+import { Post } from "@/api/post"
+import { addReaction, Reaction } from "@/api/reaction"
 import editorStore from "@/store/editor"
+import { userState } from "@/store/user"
 
 interface PostItemProps {
     post: Post
+    Reactions: () => Reaction[]
+}
+
+const handleLike = async (topicId: number, postNumber: number) => {
+    try {
+        const response = await addReaction({
+            kind: 0,
+            topic_id: topicId,
+            post_number: postNumber,
+        })
+        if (response.success) {
+            toast.success("点赞成功")
+        } else {
+            toast.error(response.message || "点赞失败")
+        }
+    } catch (error) {
+        console.error("点赞失败:", error)
+        toast.error("网络错误")
+    }
 }
 
 const PostItem = (props: PostItemProps) => {
@@ -33,12 +57,35 @@ const PostItem = (props: PostItemProps) => {
                     </div>
                 </div>
                 <div class="post-content">
-                    <div innerHTML={props.post.cooked}></div>
+                    <div innerHTML={props.post.cooked} />
                 </div>
                 <div class="post-actions">
-                    <div class="post-action-btn" title="点赞">
-                        <img src="/like.svg" alt="点赞" class="action-icon" />
-                    </div>
+                    {props.post.user_id !== userState.user?.id && (
+                        <div
+                            class="post-action-btn"
+                            title="点赞"
+                            onClick={() =>
+                                handleLike(
+                                    props.post.topic_id,
+                                    props.post.post_number
+                                )
+                            }
+                        >
+                            <img
+                                src="/like.svg"
+                                alt="点赞"
+                                classList={{
+                                    active: props
+                                        .Reactions()
+                                        .some(
+                                            (r) =>
+                                                r.user_id === userState.user?.id
+                                        ),
+                                }}
+                                class={`action-icon`}
+                            />
+                        </div>
+                    )}
                     <div
                         class="post-action-btn"
                         title="回复"

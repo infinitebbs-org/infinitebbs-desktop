@@ -1,4 +1,4 @@
-import { API_ENDPOINT, API_CONFIG } from "./config"
+import { API_CONFIG,API_ENDPOINT } from "./config"
 
 // API 响应类型
 export interface ApiResponse<T = any> {

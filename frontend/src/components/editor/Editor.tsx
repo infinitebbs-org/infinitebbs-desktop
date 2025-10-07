@@ -1,5 +1,7 @@
 import "./Editor.css"
-import { onMount, onCleanup } from "solid-js"
+
+import { For,onCleanup,onMount } from "solid-js"
+
 import editorStore from "@/store/editor"
 
 const Editor = () => {
@@ -49,7 +51,7 @@ const Editor = () => {
                     <div
                         class="editor-handle"
                         onMouseDown={handleMouseDown}
-                    ></div>
+                     />
                     <div class="editor-content">
                         <div class="editor-input">
                             {editorStore.state.mode === "create" && (
@@ -78,7 +80,7 @@ const Editor = () => {
                                         e.target.value
                                     )
                                 }
-                            ></textarea>
+                             />
                             <div class="editor-actions">
                                 <button
                                     class="publish-btn"
@@ -98,11 +100,10 @@ const Editor = () => {
                         </div>
                         <div class="editor-preview">
                             <div class="preview-content">
-                                {editorStore.state.content
-                                    .split("\n")
-                                    .map((line) => (
+                                <For each={editorStore.state.content
+                                    .split("\n")}>{(line) => (
                                         <p>{line}</p>
-                                    ))}
+                                    )}</For>
                             </div>
                         </div>
                     </div>
