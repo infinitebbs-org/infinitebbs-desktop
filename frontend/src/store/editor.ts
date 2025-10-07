@@ -1,7 +1,7 @@
 import { createStore } from "solid-js/store"
 import toast from "solid-toast"
 
-import { CreatePostRequest,createTopic, CreateTopicRequest, replyToTopic } from "@/api/topic"
+import { CreatePostRequest, createTopic, CreateTopicRequest, replyToTopic } from "@/api/topic"
 
 interface EditorState {
     isOpen: boolean
@@ -21,22 +21,30 @@ const [editorState, setEditorState] = createStore<EditorState>({
     height: 300,
 })
 
+const resetEditorState = () => {
+    setEditorState({
+        isOpen: false,
+        mode: 'create',
+        title: "",
+        content: "",
+        topicId: undefined,
+        replyId: undefined,
+    })
+}
+
 const editorStore = {
     state: editorState,
     actions: {
         openEditor: (mode: 'create' | 'reply' = 'create', topicId?: number, replyId?: number) => {
-            setEditorState("isOpen", true)
-            setEditorState("mode", mode)
-            if (topicId !== undefined) setEditorState("topicId", topicId)
-            if (replyId !== undefined) setEditorState("replyId", replyId)
+            setEditorState({
+                isOpen: true,
+                mode,
+                topicId,
+                replyId,
+            })
         },
         closeEditor: () => {
-            setEditorState("isOpen", false)
-            setEditorState("title", "")
-            setEditorState("content", "")
-            setEditorState("mode", 'create')
-            setEditorState("topicId", undefined)
-            setEditorState("replyId", undefined)
+            resetEditorState()
         },
         setTitle: (title: string) => setEditorState("title", title),
         setContent: (content: string) => setEditorState("content", content),

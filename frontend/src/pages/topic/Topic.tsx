@@ -1,7 +1,7 @@
 import "./Topic.css"
 
 import { useParams } from "@solidjs/router"
-import { createSignal, For, onMount, Show } from "solid-js"
+import { createMemo, createSignal, For, onMount, Show } from "solid-js"
 
 import { getPostsByTopicId, Post } from "@/api/post"
 import { getReactionsForTopic, Reaction } from "@/api/reaction"
@@ -10,7 +10,7 @@ import PostItem from "@/components/post/PostItem"
 
 const Topic = () => {
     const params = useParams()
-    const topicId = () => parseInt(params.id)
+    const topicId = createMemo(() => parseInt(params.id))
 
     const [posts, setPosts] = createSignal<Post[]>([])
     const [isLoading, setIsLoading] = createSignal(true)

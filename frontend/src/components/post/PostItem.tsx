@@ -1,5 +1,6 @@
 import "./PostItem.css"
 
+import { createMemo } from "solid-js"
 import toast from "solid-toast"
 
 import { Post } from "@/api/post"
@@ -31,6 +32,11 @@ const handleLike = async (topicId: number, postNumber: number) => {
 }
 
 const PostItem = (props: PostItemProps) => {
+    const memoizedReactions = createMemo(() => props.Reactions())
+    const memoizedDate = createMemo(() =>
+        new Date(props.post.created_at).toLocaleString()
+    )
+
     return (
         <div class="post-item">
             <div class="post-avatar">
@@ -49,7 +55,7 @@ const PostItem = (props: PostItemProps) => {
                     </div>
                     <div class="post-item-meta">
                         <span class="post-item-created-at">
-                            {new Date(props.post.created_at).toLocaleString()}
+                            {memoizedDate()}
                         </span>
                         <span class="post-item-number">
                             #{props.post.post_number}
@@ -75,12 +81,9 @@ const PostItem = (props: PostItemProps) => {
                                 src="/like.svg"
                                 alt="点赞"
                                 classList={{
-                                    active: props
-                                        .Reactions()
-                                        .some(
-                                            (r) =>
-                                                r.user_id === userState.user?.id
-                                        ),
+                                    active: memoizedReactions().some(
+                                        (r) => r.user_id === userState.user?.id
+                                    ),
                                 }}
                                 class={`action-icon`}
                             />

@@ -1,45 +1,12 @@
 import "./Editor.css"
 
-import { For,onCleanup,onMount } from "solid-js"
+import { For } from "solid-js"
 
+import { useDraggable } from "@/hooks/useDraggable"
 import editorStore from "@/store/editor"
 
 const Editor = () => {
-    let isDragging = false
-    let startY = 0
-    let startHeight = 0
-
-    const handleMouseDown = (e: MouseEvent) => {
-        isDragging = true
-        startY = e.clientY
-        startHeight = editorStore.state.height
-        document.addEventListener("mousemove", handleMouseMove)
-        document.addEventListener("mouseup", handleMouseUp)
-    }
-
-    const handleMouseMove = (e: MouseEvent) => {
-        if (isDragging) {
-            const newHeight = startHeight - (e.clientY - startY)
-            editorStore.actions.setHeight(
-                Math.max(240, Math.min(newHeight, window.innerHeight * 0.8))
-            ) // 最小高度 240px，最大高度 80% 视口高度
-        }
-    }
-
-    const handleMouseUp = () => {
-        isDragging = false
-        document.removeEventListener("mousemove", handleMouseMove)
-        document.removeEventListener("mouseup", handleMouseUp)
-    }
-
-    onMount(() => {
-        // 清理在组件卸载时
-    })
-
-    onCleanup(() => {
-        document.removeEventListener("mousemove", handleMouseMove)
-        document.removeEventListener("mouseup", handleMouseUp)
-    })
+    const { handleMouseDown } = useDraggable()
 
     return (
         <>
@@ -48,10 +15,7 @@ const Editor = () => {
                     class="editor-overlay"
                     style={{ height: editorStore.state.height + "px" }}
                 >
-                    <div
-                        class="editor-handle"
-                        onMouseDown={handleMouseDown}
-                     />
+                    <div class="editor-handle" onMouseDown={handleMouseDown} />
                     <div class="editor-content">
                         <div class="editor-input">
                             {editorStore.state.mode === "create" && (
@@ -80,7 +44,7 @@ const Editor = () => {
                                         e.target.value
                                     )
                                 }
-                             />
+                            />
                             <div class="editor-actions">
                                 <button
                                     class="publish-btn"
@@ -100,10 +64,11 @@ const Editor = () => {
                         </div>
                         <div class="editor-preview">
                             <div class="preview-content">
-                                <For each={editorStore.state.content
-                                    .split("\n")}>{(line) => (
-                                        <p>{line}</p>
-                                    )}</For>
+                                <For
+                                    each={editorStore.state.content.split("\n")}
+                                >
+                                    {(line) => <p>{line}</p>}
+                                </For>
                             </div>
                         </div>
                     </div>
