@@ -106,50 +106,6 @@
     font-size: 14px;
 }
 
-.asset-card {
-    flex: 1 1 0;
-    background: #fff;
-    border-radius: 8px;
-    padding: 24px 12px;
-    border: 1px solid #eee;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-    min-width: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.assets-row {
-    display: flex;
-    gap: 12px;
-    align-items: stretch;
-    width: 100%;
-}
-
-.assets-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    max-width: 760px;
-    margin-top: 12px;
-    padding: 0 8px;
-    box-sizing: border-box;
-}
-
-.asset-icon {
-    width: 36px;
-    height: 36px;
-}
-
-.asset-amount {
-    font-weight: 600;
-    font-size: 28px;
-    color: #111;
-    line-height: 36px;
-}
-
 .status {
     text-align: center;
     margin-bottom: 12px;
@@ -187,9 +143,6 @@
     }
     .panels {
         grid-template-columns: 1fr;
-    }
-    .assets-row {
-        flex-direction: column;
     }
     .bottom-row {
         flex-direction: column;

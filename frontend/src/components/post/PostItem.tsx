@@ -41,7 +41,7 @@ const PostItem = (props: PostItemProps) => {
         <div class="post-item">
             <div class="post-avatar">
                 <img
-                    src="https://picsum.photos/40/40"
+                    src="https://picsum.photos/100/100"
                     alt="用户头像"
                     class="post-item-user-avatar"
                 />

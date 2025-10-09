@@ -1,27 +1,27 @@
 import "./Profile.css"
 
-import { onMount } from "solid-js"
-
-import { fetchUserInfo, logout,userState } from "@/store/user"
+import AssetCard from "@/components/assetcard/AssetCard"
+import { logout, userState } from "@/store/user"
 
 const Profile = () => {
-    onMount(() => {
-        if (!userState.user) {
-            fetchUserInfo()
-        }
-    })
+    const user = () => userState.user!
 
-    const user = () =>
-        userState.user || {
-            id: "-",
-            info: {
-                name: "-",
-                coin: 0,
-                bean: 0,
-                premium: { is_active: false, expires_at: null },
-            },
-            roles: [],
-        }
+    // 提取货币计算逻辑
+    const gold = Math.floor(user().info.coin / 10000)
+    const silver = Math.floor((user().info.coin % 10000) / 100)
+    const copper = user().info.coin % 100
+    const bean = user().info.bean
+
+    // 提取会员状态逻辑
+    const premiumSrc = user().info.premium?.is_active
+        ? "/premium.svg"
+        : "/unpremium.svg"
+    const premiumTitle = user().info.premium?.is_active
+        ? `会员到期时间: ${user().info.premium?.expires_at || "未知"}`
+        : "请激活会员"
+
+    // 提取用户角色逻辑
+    const rolesString = user().roles.join(", ")
 
     return (
         <div class="profile-page">
@@ -48,77 +48,41 @@ const Profile = () => {
                                     {user().info.name ?? "-"}
                                 </div>
                                 {user().roles.length > 0 && (
-                                    <div class="role-badge">
-                                        {user().roles.join(", ")}
-                                    </div>
+                                    <div class="role-badge">{rolesString}</div>
                                 )}
                             </div>
                             <div class="premium-icon">
                                 <img
-                                    src={
-                                        user().info.premium?.is_active
-                                            ? "/premium.svg"
-                                            : "/unpremium.svg"
-                                    }
+                                    src={premiumSrc}
                                     alt="会员状态"
-                                    title={
-                                        user().info.premium?.is_active
-                                            ? `会员到期时间: ${
-                                                  user().info.premium
-                                                      ?.expires_at || "未知"
-                                              }`
-                                            : "请激活会员"
-                                    }
+                                    title={premiumTitle}
                                 />
                             </div>
                             <div class="id-badge">ID: {user().id ?? "-"}</div>
                         </div>
 
-                        {/* external assets: placed outside the main card with spacing */}
                         <div class="assets-container">
                             <div class="assets-row">
-                                <div class="asset-card">
-                                    <img
-                                        src="/gold_coin.svg"
-                                        alt="金币"
-                                        class="asset-icon"
-                                    />
-                                    <div class="asset-amount">
-                                        {Math.floor(user().info.coin / 10000)}
-                                    </div>
-                                </div>
-                                <div class="asset-card">
-                                    <img
-                                        src="/silver_coin.svg"
-                                        alt="银币"
-                                        class="asset-icon"
-                                    />
-                                    <div class="asset-amount">
-                                        {Math.floor(
-                                            (user().info.coin % 10000) / 100
-                                        )}
-                                    </div>
-                                </div>
-                                <div class="asset-card">
-                                    <img
-                                        src="/copper_coin.svg"
-                                        alt="铜币"
-                                        class="asset-icon"
-                                    />
-                                    <div class="asset-amount">
-                                        {user().info.coin % 100}
-                                    </div>
-                                </div>
-                                <div class="asset-card">
-                                    <img
-                                        src="/bean.svg"
-                                        alt="豆子"
-                                        class="asset-icon"
-                                    />
-                                    <div class="asset-amount">
-                                        {user().info.bean}
-                                    </div>
-                                </div>
+                                <AssetCard
+                                    iconSrc="/gold_coin.svg"
+                                    alt="金币"
+                                    amount={gold}
+                                />
+                                <AssetCard
+                                    iconSrc="/silver_coin.svg"
+                                    alt="银币"
+                                    amount={silver}
+                                />
+                                <AssetCard
+                                    iconSrc="/copper_coin.svg"
+                                    alt="铜币"
+                                    amount={copper}
+                                />
+                                <AssetCard
+                                    iconSrc="/bean.svg"
+                                    alt="豆子"
+                                    amount={bean}
+                                />
                             </div>
                         </div>
 
