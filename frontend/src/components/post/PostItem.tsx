@@ -5,7 +5,9 @@ import toast from "solid-toast"
 
 import { Post } from "@/api/post"
 import { addReaction, Reaction } from "@/api/reaction"
+import { reactionTypes } from "@/constants/reactions"
 import editorStore from "@/store/editor"
+import reactionPickerStore from "@/store/reactionPicker"
 import { userState } from "@/store/user"
 
 interface PostItemProps {
@@ -15,10 +17,37 @@ interface PostItemProps {
 }
 
 const PostItem = (props: PostItemProps) => {
+    let reactionBtnRef: HTMLDivElement | undefined
+
     const memoizedReactions = createMemo(() => props.Reactions())
     const memoizedDate = createMemo(() =>
         new Date(props.post.created_at).toLocaleString()
     )
+    const userReaction = createMemo(() =>
+        memoizedReactions().find((r) => r.user_id === userState.user?.id)
+    )
+    const reactionIcon = createMemo(() => {
+        const reaction = userReaction()
+        if (reaction) {
+            const type = reactionTypes.find((t) => t.kind === reaction.kind)
+            return type ? `/${type.icon}` : "/like.svg"
+        }
+        return "/like.svg"
+    })
+
+    const handleMouseEnter = () => {
+        if (reactionBtnRef) {
+            reactionPickerStore.actions.show(
+                reactionBtnRef,
+                props.post.topic_id,
+                props.post.post_number
+            )
+        }
+    }
+
+    const handleMouseLeave = () => {
+        reactionPickerStore.actions.hide()
+    }
 
     const handleLike = async (topicId: number, postNumber: number) => {
         try {
@@ -79,8 +108,11 @@ const PostItem = (props: PostItemProps) => {
                 <div class="post-actions">
                     {props.post.user_id !== userState.user?.id && (
                         <div
+                            ref={reactionBtnRef}
                             class="post-action-btn"
                             title="点赞"
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
                             onClick={() =>
                                 handleLike(
                                     props.post.topic_id,
@@ -89,7 +121,7 @@ const PostItem = (props: PostItemProps) => {
                             }
                         >
                             <img
-                                src="/like.svg"
+                                src={reactionIcon()}
                                 alt="点赞"
                                 classList={{
                                     active: memoizedReactions().some(
@@ -101,7 +133,7 @@ const PostItem = (props: PostItemProps) => {
                         </div>
                     )}
                     <div
-                        class="post-action-btn"
+                        class="post-action-btn reply-btn"
                         title="回复"
                         onClick={() =>
                             editorStore.actions.openEditor(

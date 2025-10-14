@@ -7,6 +7,7 @@ import { getPostsByTopicId, Post } from "@/api/post"
 import { getReactionsForTopic, Reaction } from "@/api/reaction"
 import { viewTopic } from "@/api/topic"
 import PostItem from "@/components/post/PostItem"
+import ReactionPicker from "@/components/ReactionPicker/ReactionPicker"
 
 const Topic = () => {
     const params = useParams()
@@ -40,6 +41,11 @@ const Topic = () => {
 
     return (
         <div class="topic-page">
+            <ReactionPicker
+                onReactionAdd={(reaction) =>
+                    setUserReactions([...userReactions(), reaction])
+                }
+            />
             <Show when={isLoading()}>
                 <div class="loading">加载中...</div>
             </Show>
