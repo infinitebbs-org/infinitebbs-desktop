@@ -11,24 +11,7 @@ import { userState } from "@/store/user"
 interface PostItemProps {
     post: Post
     Reactions: () => Reaction[]
-}
-
-const handleLike = async (topicId: number, postNumber: number) => {
-    try {
-        const response = await addReaction({
-            kind: 0,
-            topic_id: topicId,
-            post_number: postNumber,
-        })
-        if (response.success) {
-            toast.success("点赞成功")
-        } else {
-            toast.error(response.message || "点赞失败")
-        }
-    } catch (error) {
-        console.error("点赞失败:", error)
-        toast.error("网络错误")
-    }
+    onReactionAdd: (reaction: Reaction) => void
 }
 
 const PostItem = (props: PostItemProps) => {
@@ -36,6 +19,34 @@ const PostItem = (props: PostItemProps) => {
     const memoizedDate = createMemo(() =>
         new Date(props.post.created_at).toLocaleString()
     )
+
+    const handleLike = async (topicId: number, postNumber: number) => {
+        try {
+            const response = await addReaction({
+                kind: 0,
+                topic_id: topicId,
+                post_number: postNumber,
+            })
+            if (response.success) {
+                toast.success("点赞成功")
+                // 添加到本地记录
+                const newReaction: Reaction = {
+                    id: Date.now(), // 临时ID
+                    topic_id: topicId,
+                    post_number: postNumber,
+                    user_id: userState.user!.id,
+                    kind: 0,
+                    created_at: new Date().toISOString(),
+                }
+                props.onReactionAdd(newReaction)
+            } else {
+                toast.error(response.message || "点赞失败")
+            }
+        } catch (error) {
+            console.error("点赞失败:", error)
+            toast.error("网络错误")
+        }
+    }
 
     return (
         <div class="post-item">

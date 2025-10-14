@@ -60,6 +60,12 @@ const Topic = () => {
                                                 post.post_number
                                         )
                                     }
+                                    onReactionAdd={(reaction) =>
+                                        setUserReactions([
+                                            ...userReactions(),
+                                            reaction,
+                                        ])
+                                    }
                                 />
                             )}
                         </For>
