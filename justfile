@@ -10,5 +10,10 @@ push:
     git push bitbucket main
     git push sourcehut main
 
+update:
+    bun update
+    cd frontend && bun update
+    cd backend && cargo update
+
 default:
     echo 'Hello, world!'
