@@ -1,5 +1,6 @@
 .global-reaction-picker {
     position: fixed;
+    background: #fdf7f3;
     transform: translate(-50%, calc(-100% - 8px));
     display: flex;
     gap: 4px;
@@ -38,10 +39,10 @@
 }
 
 .reaction-option img {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
 }
 
 .reaction-option:hover {
-    scale: 1.2;
+    scale: 1.4;
 }

@@ -7,7 +7,7 @@ import { getPostsByTopicId, Post } from "@/api/post"
 import { getReactionsForTopic, Reaction } from "@/api/reaction"
 import { viewTopic } from "@/api/topic"
 import PostItem from "@/components/post/PostItem"
-import ReactionPicker from "@/components/ReactionPicker/ReactionPicker"
+import ReactionPicker from "@/components/reaction/ReactionPicker"
 
 const Topic = () => {
     const params = useParams()

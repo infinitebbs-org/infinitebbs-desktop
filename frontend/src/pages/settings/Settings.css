@@ -1,0 +1,15 @@
+.settings-page {
+    padding: 24px;
+}
+
+.settings-page h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #1f2937;
+}
+
+.settings-page p {
+    font-size: 16px;
+    color: #6b7280;
+}

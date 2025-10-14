@@ -10,6 +10,18 @@
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar-top {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-bottom {
+    display: flex;
+    flex-direction: column;
     gap: 4px;
 }
 
