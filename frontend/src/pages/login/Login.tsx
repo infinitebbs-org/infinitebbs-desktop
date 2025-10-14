@@ -1,11 +1,11 @@
 import "./Login.css"
 
 import { useNavigate } from "@solidjs/router"
-import { createSignal, onMount,Show } from "solid-js"
+import { createSignal, onMount, Show } from "solid-js"
 import toast from "solid-toast"
 
-import { loginApi, registerApi } from "@/api/auth"
-import { getAccessToken, login, logout } from "@/store/auth"
+import { getAccessToken, login, logout, register } from "@/store/auth"
+import { initTopics } from "@/store/topic"
 import { fetchUserInfo, userState } from "@/store/user"
 
 type AuthMode = "login" | "register"
@@ -23,7 +23,9 @@ const Login = () => {
     onMount(async () => {
         if (getAccessToken()) {
             await fetchUserInfo()
-            if (!userState.user) {
+            if (userState.user) {
+                initTopics() // 已登录状态下初始化话题
+            } else {
                 logout()
             }
         }
@@ -39,20 +41,9 @@ const Login = () => {
 
         setIsLoading(true)
         try {
-            // 使用 API 模块调用远程接口
-            const result = await loginApi({
-                username: username(),
-                password: password(),
-            })
-
-            if (result.success && result.data) {
-                // 登录成功，保存登录状态
-                login(result.data.access_token)
-                await fetchUserInfo()
-                toast.success(`登录成功！`)
+            const result = await login(username(), password())
+            if (result.success) {
                 navigate("/")
-            } else {
-                toast.error(result.message || "登录失败")
             }
         } catch (error: any) {
             toast.error(`登录失败: ${error.message || error}`)
@@ -74,16 +65,10 @@ const Login = () => {
 
         setIsLoading(true)
         try {
-            // 使用 API 模块调用远程接口
-            const result = await registerApi({
-                username: username(),
-                password: password(),
-            })
-
-            if (result.success && result.data) {
-                toast.success(`注册成功!`)
-            } else {
-                toast.error(result.message || "注册失败")
+            const result = await register(username(), password())
+            if (result.success) {
+                // 注册成功后切换到登录模式
+                setAuthMode("login")
             }
         } catch (error: any) {
             toast.error(`注册失败: ${error.message || error}`)

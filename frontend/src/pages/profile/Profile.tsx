@@ -1,7 +1,8 @@
 import "./Profile.css"
 
 import AssetCard from "@/components/assetcard/AssetCard"
-import { logout, userState } from "@/store/user"
+import { logout } from "@/store/auth"
+import { userState } from "@/store/user"
 
 const Profile = () => {
     const user = () => userState.user!

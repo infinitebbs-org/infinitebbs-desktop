@@ -1,10 +1,6 @@
 import { createStore } from "solid-js/store"
-import toast from "solid-toast"
 
-import { logoutApi } from "@/api/auth"
 import { getUserInfo, type UserInfo } from "@/api/user"
-
-import { removeAccessToken } from "./auth"
 
 // 用户状态接口
 export interface UserState {
@@ -23,7 +19,6 @@ const [userState, setUserState] = createStore<UserState>({
 // 导出状态
 export { userState }
 
-
 // 获取用户信息方法
 export const fetchUserInfo = async () => {
     setUserState({ isLoading: true, error: null })
@@ -41,21 +36,7 @@ export const fetchUserInfo = async () => {
     }
 }
 
-// 登出方法
-export const logout = async () => {
-    setUserState({ isLoading: true, error: null })
-    try {
-        const response = await logoutApi()
-        if (response.success) {
-            setUserState({ user: null })
-            removeAccessToken()
-            toast.success("登出成功")
-        } else {
-            setUserState({ error: "登出失败" })
-        }
-    } catch (error) {
-        setUserState({ error: error instanceof Error ? error.message : "未知错误" })
-    } finally {
-        setUserState({ isLoading: false })
-    }
+// 清空用户信息
+export const clearUserInfo = () => {
+    setUserState({ user: null })
 }

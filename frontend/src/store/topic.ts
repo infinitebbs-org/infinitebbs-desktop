@@ -1,0 +1,101 @@
+import { createStore } from "solid-js/store"
+
+import { getTopics, Topic } from "@/api/topic"
+
+export interface TopicState {
+    topics: Topic[]
+    currentPage: number
+    isLoading: boolean
+    hasMore: boolean
+    newTopicsCount: number
+}
+
+const [topicState, setTopicState] = createStore<TopicState>({
+    topics: [],
+    currentPage: 1,
+    isLoading: false,
+    hasMore: true,
+    newTopicsCount: 0,
+})
+
+// 导出状态
+export { topicState }
+
+// 加载更多话题
+export const loadTopics = async () => {
+    if (topicState.isLoading || !topicState.hasMore) return
+
+    setTopicState("isLoading", true)
+    try {
+        const data = await getTopics(topicState.currentPage)
+        setTopicState("topics", prev => [...prev, ...data.topics])
+        if (data.topics.length === 0) {
+            setTopicState("hasMore", false)
+        } else {
+            setTopicState("currentPage", prev => prev + 1)
+        }
+    } catch (error) {
+        console.error("加载话题失败:", error)
+        setTopicState("hasMore", false)
+    } finally {
+        setTopicState("isLoading", false)
+    }
+}
+
+// 刷新话题
+export const refreshTopics = async () => {
+    setTopicState("isLoading", true)
+    try {
+        const data = await getTopics(1)
+        setTopicState("topics", prev => {
+            const existingMap = new Map(prev.map(t => [t.id, t]))
+            data.topics.forEach(t => existingMap.set(t.id, t))
+            return [...data.topics, ...prev.filter(t => !data.topics.some(nt => nt.id === t.id))]
+        })
+        setTopicState("newTopicsCount", 0)
+    } catch (error) {
+        console.error("刷新话题失败:", error)
+    } finally {
+        setTopicState("isLoading", false)
+    }
+}
+
+// 检查新话题
+const currentTopicIds = () => new Set(topicState.topics.map(t => t.id))
+
+export const checkForNewTopics = async () => {
+    try {
+        const data = await getTopics(1)
+        const newCount = data.topics.filter(t => !currentTopicIds().has(t.id)).length
+        setTopicState("newTopicsCount", newCount)
+    } catch (error) {
+        console.error("检查新话题失败:", error)
+    }
+}
+
+// 初始化话题存储（全局只运行一次）
+let intervalId: number | undefined
+
+export const initTopics = () => {
+    // 加载第一页话题
+    loadTopics()
+
+    // 启动定时检查新话题（每10秒）
+    intervalId = window.setInterval(checkForNewTopics, 10000)
+}
+
+// 停止定时器并清空话题数据（登出时调用）
+export const cleanupTopics = () => {
+    if (intervalId !== undefined) {
+        window.clearInterval(intervalId)
+        intervalId = undefined
+    }
+    // 清空话题数据
+    setTopicState({
+        topics: [],
+        currentPage: 1,
+        isLoading: false,
+        hasMore: true,
+        newTopicsCount: 0,
+    })
+}

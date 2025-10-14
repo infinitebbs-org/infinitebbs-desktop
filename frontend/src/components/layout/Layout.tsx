@@ -36,7 +36,7 @@ const Layout = (props: RouterProps) => {
                 </div>
             </aside>
             <div class="content-area">
-                <header class="top-bar" />
+                <header data-tauri-drag-region class="top-bar" />
                 <main class="content">{props.children as JSX.Element}</main>
             </div>
         </div>
