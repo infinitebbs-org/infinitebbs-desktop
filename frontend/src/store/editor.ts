@@ -56,17 +56,23 @@ const editorStore = {
                         title: editorState.title,
                         content: editorState.content,
                     }
-                    const response = await createTopic(data)
-                    console.log("话题发布成功:", response)
-                    toast.success("话题发布成功")
+                    const resp = await createTopic(data)
+                    if (resp.success) {
+                        toast.success("话题发布成功")
+                    } else {
+                        toast.error(resp.message || "话题发布失败")
+                    }
                 } else if (editorState.mode === 'reply' && editorState.topicId !== undefined) {
                     const data: CreatePostRequest = {
                         content: editorState.content,
                         reply: editorState.replyId,
                     }
-                    const response = await replyToTopic(editorState.topicId, data)
-                    console.log("回复发布成功:", response)
-                    toast.success("回复发布成功")
+                    const resp = await replyToTopic(editorState.topicId, data)
+                    if (resp.success) {
+                        toast.success("回复发布成功")
+                    } else {
+                        toast.error(resp.message || "回复发布失败")
+                    }
                 }
                 editorStore.actions.closeEditor()
             } catch (error) {

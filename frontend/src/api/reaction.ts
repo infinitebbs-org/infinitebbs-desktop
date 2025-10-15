@@ -1,4 +1,4 @@
-import { ApiResponse,get, post } from "./client"
+import { api, R } from "."
 
 export interface Reaction {
     id: number
@@ -18,11 +18,11 @@ export interface AddReactionRequest {
 
 // 获取主题反应的 API 函数
 export const getReactionsForTopic = async (topicId: number): Promise<Reaction[]> => {
-    const response = await get<Reaction[]>(`/reaction/topic/${topicId}`)
+    const response = await api.get(`reaction/topic/${topicId}`).json<R<Reaction[]>>()
     return response.data || []
 }
 
 // 添加反应的 API 函数
-export const addReaction = async (data: AddReactionRequest): Promise<ApiResponse> => {
-    return post("/reaction", data)
+export const addReaction = async (data: AddReactionRequest): Promise<R> => {
+    return api.post("reaction", { json: data }).json()
 }

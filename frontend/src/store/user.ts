@@ -3,7 +3,7 @@ import { createStore } from "solid-js/store"
 import { getUserInfo, type UserInfo } from "@/api/user"
 
 // 用户状态接口
-export interface UserState {
+interface UserState {
     user: UserInfo | null
     isLoading: boolean
     error: string | null

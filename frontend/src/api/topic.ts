@@ -1,4 +1,4 @@
-import { get,post } from "./client"
+import { api, R } from "."
 
 // 创建主题的请求接口
 export interface CreateTopicRequest {
@@ -37,31 +37,24 @@ export interface GetTopicsResponse {
     total: number
 }
 
-// 查看主题的响应接口
-export interface ViewTopicResponse {
-    success: boolean
-}
+
 
 // 创建主题的 API 函数
-export const createTopic = async (data: CreateTopicRequest): Promise<CreateTopicResponse> => {
-    const response = await post<CreateTopicResponse>("/topic", data)
-    return response.data!
+export const createTopic = async (data: CreateTopicRequest): Promise<R<CreateTopicResponse>> => {
+    return await api.post("topic", { json: data }).json<R<CreateTopicResponse>>()
 }
 
 // 获取主题列表的 API 函数
-export const getTopics = async (page: number): Promise<GetTopicsResponse> => {
-    const response = await get<GetTopicsResponse>(`/topic/page/${page}`)
-    return response.data!
+export const getTopics = async (page: number): Promise<R<GetTopicsResponse>> => {
+    return await api.get(`topic/page/${page}`).json<R<GetTopicsResponse>>()
 }
 
 // 回复主题的 API 函数
-export const replyToTopic = async (topicId: number, data: CreatePostRequest): Promise<CreatePostResponse> => {
-    const response = await post<CreatePostResponse>(`/topic/${topicId}`, data)
-    return response.data!
+export const replyToTopic = async (topicId: number, data: CreatePostRequest): Promise<R<CreatePostResponse>> => {
+    return await api.post(`topic/${topicId}`, { json: data }).json<R<CreatePostResponse>>()
 }
 
 // 查看主题的 API 函数
-export const viewTopic = async (topicId: number): Promise<ViewTopicResponse> => {
-    const response = await post<ViewTopicResponse>(`/topic/${topicId}/view`)
-    return response.data!
+export const viewTopic = async (topicId: number): Promise<R> => {
+    return await api.post(`topic/${topicId}/view`).json<R>()
 }

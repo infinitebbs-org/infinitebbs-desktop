@@ -125,7 +125,7 @@ const Login = () => {
                         onInput={(e) => setUsername(e.currentTarget.value)}
                         placeholder="用户名"
                         disabled={isLoading()}
-                        autocomplete="off"
+                        autocomplete="username"
                     />
                     <input
                         id="password-input"
@@ -134,6 +134,11 @@ const Login = () => {
                         onInput={(e) => setPassword(e.currentTarget.value)}
                         placeholder="密码"
                         disabled={isLoading()}
+                        autocomplete={
+                            authMode() === "login"
+                                ? "current-password"
+                                : "new-password"
+                        }
                     />
                     <Show when={authMode() === "register"}>
                         <input
@@ -145,6 +150,7 @@ const Login = () => {
                             }
                             placeholder="确认密码"
                             disabled={isLoading()}
+                            autocomplete="new-password"
                         />
                     </Show>
                     <button type="submit" disabled={isLoading()}>

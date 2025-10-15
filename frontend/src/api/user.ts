@@ -1,4 +1,4 @@
-import { ApiResponse,get } from "./client"
+import { api, R } from "."
 
 // 用户信息类型定义
 export interface UserInfo {
@@ -16,6 +16,6 @@ export interface UserInfo {
 }
 
 // 获取用户信息
-export const getUserInfo = async (): Promise<ApiResponse<UserInfo>> => {
-    return get<UserInfo>("/user/info")
+export const getUserInfo = async (): Promise<R<UserInfo>> => {
+    return api.get("user/info").json()
 }

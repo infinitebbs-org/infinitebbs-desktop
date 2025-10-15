@@ -10,24 +10,29 @@
         "serve": "vite preview",
         "lint": "eslint src --ext .ts,.tsx",
         "lint:fix": "eslint src --ext .ts,.tsx --fix",
-        "tauri": "tauri"
+        "tauri": "tauri",
+        "knip": "knip"
     },
     "license": "MIT",
     "dependencies": {
+        "@solid-primitives/event-listener": "^2.4.3",
+        "@solid-primitives/scheduled": "^1.5.2",
+        "@solid-primitives/timer": "^1.4.3",
         "@solidjs/router": "^0.15.3",
         "@tauri-apps/api": "^2.8.0",
-        "@tauri-apps/plugin-opener": "^2.5.0",
-        "solid-icons": "^1.1.0",
+        "ky": "^1.12.0",
         "solid-js": "^1.9.9",
         "solid-toast": "^0.5.0"
     },
     "devDependencies": {
+        "@eslint/js": "^9.37.0",
         "@tauri-apps/cli": "^2.8.4",
         "@typescript-eslint/eslint-plugin": "^8.46.1",
         "@typescript-eslint/parser": "^8.46.1",
         "eslint": "^9.37.0",
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "eslint-plugin-solid": "^0.14.5",
+        "knip": "^5.65.0",
         "typescript": "^5.9.3",
         "vite": "^7.1.9",
         "vite-plugin-solid": "^2.11.9"

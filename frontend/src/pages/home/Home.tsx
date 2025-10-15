@@ -1,23 +1,13 @@
 import "./Home.css"
 
+import { createEventListener } from "@solid-primitives/event-listener"
+import { debounce } from "@solid-primitives/scheduled"
 import { A } from "@solidjs/router"
-import { For, onCleanup, onMount, Show } from "solid-js"
+import { For, onMount, Show } from "solid-js"
 
 import { loadTopics, refreshTopics, topicState } from "@/store/topic"
 import { formatViewCount } from "@/utils/format"
 import { formatActivityTime } from "@/utils/time"
-
-// 防抖函数：延迟执行函数，避免频繁调用
-const debounce = <T extends (...args: any[]) => void>(
-    func: T,
-    delay: number
-): ((...args: Parameters<T>) => void) => {
-    let timeoutId: number | undefined
-    return (...args: Parameters<T>) => {
-        if (timeoutId) clearTimeout(timeoutId)
-        timeoutId = setTimeout(() => func(...args), delay)
-    }
-}
 
 const Home = () => {
     // DOM 引用
@@ -36,10 +26,9 @@ const Home = () => {
             }
         }
 
-        containerRef?.addEventListener("scroll", handleScroll)
-
-        onCleanup(() => {
-            containerRef?.removeEventListener("scroll", handleScroll)
+        // use createEventListener so listeners are added/removed reactively and cleaned up
+        createEventListener(() => containerRef, "scroll", handleScroll, {
+            passive: true,
         })
     })
 

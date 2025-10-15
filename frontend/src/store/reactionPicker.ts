@@ -1,3 +1,4 @@
+import { makeTimer } from "@solid-primitives/timer"
 import { createSignal } from "solid-js"
 
 interface ReactionPickerState {
@@ -12,7 +13,8 @@ const [state, setState] = createSignal<ReactionPickerState>({
     targetPost: null,
 })
 
-let hideTimeout: number | undefined
+// timer disposer for hide timeout
+let hideTimerDispose: (() => void) | undefined
 
 const reactionPickerStore = {
     get state() {
@@ -25,9 +27,9 @@ const reactionPickerStore = {
             topicId: number,
             postNumber: number
         ) {
-            if (hideTimeout) {
-                clearTimeout(hideTimeout)
-                hideTimeout = undefined
+            if (hideTimerDispose) {
+                hideTimerDispose()
+                hideTimerDispose = undefined
             }
 
             const rect = element.getBoundingClientRect()
@@ -42,26 +44,27 @@ const reactionPickerStore = {
         },
 
         hide() {
-            hideTimeout = window.setTimeout(() => {
+            // schedule hiding after 200ms using makeTimer which returns a disposer
+            hideTimerDispose = makeTimer(() => {
                 setState({
                     isVisible: false,
                     position: null,
                     targetPost: null,
                 })
-            }, 200)
+            }, 200, setTimeout)
         },
 
         cancelHide() {
-            if (hideTimeout) {
-                clearTimeout(hideTimeout)
-                hideTimeout = undefined
+            if (hideTimerDispose) {
+                hideTimerDispose()
+                hideTimerDispose = undefined
             }
         },
 
         hideImmediately() {
-            if (hideTimeout) {
-                clearTimeout(hideTimeout)
-                hideTimeout = undefined
+            if (hideTimerDispose) {
+                hideTimerDispose()
+                hideTimerDispose = undefined
             }
             setState({
                 isVisible: false,

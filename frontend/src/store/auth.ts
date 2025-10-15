@@ -1,30 +1,12 @@
-import { createSignal } from "solid-js"
 import toast from "solid-toast"
 
 import { loginApi, logoutApi, registerApi } from "@/api/auth"
 
-import { cleanupTopics, initTopics } from "./topic"
+import { initTopics } from "./topic"
 import { clearUserInfo, fetchUserInfo } from "./user"
 
-// 创建全局的认证状态
-export const [isLoggedIn, setIsLoggedIn] = createSignal(false)
 
-// 检查登录状态
-export const checkAuthStatus = (): boolean => {
-    try {
-        const token = localStorage.getItem("access_token")
 
-        if (token) {
-            setIsLoggedIn(true)
-            return true
-        }
-    } catch (error) {
-        console.error("检查登录状态失败:", error)
-    }
-
-    setIsLoggedIn(false)
-    return false
-}
 
 export const getAccessToken = (): string | null => {
     return localStorage.getItem("access_token")
@@ -32,12 +14,10 @@ export const getAccessToken = (): string | null => {
 
 const setAccessToken = (token: string): void => {
     localStorage.setItem("access_token", token)
-    setIsLoggedIn(true)
 }
 
 const removeAccessToken = (): void => {
     localStorage.removeItem("access_token")
-    setIsLoggedIn(false)
 }
 
 // 登录方法
@@ -88,7 +68,6 @@ export const logout = async () => {
         if (response.success) {
             removeAccessToken()
             clearUserInfo() // 清空用户信息
-            cleanupTopics() // 清理话题定时器和数据
             toast.success("登出成功")
             return { success: true }
         } else {
