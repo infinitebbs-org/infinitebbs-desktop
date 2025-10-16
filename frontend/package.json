@@ -15,14 +15,21 @@
     },
     "license": "MIT",
     "dependencies": {
+        "@codemirror/commands": "^6.9.0",
+        "@codemirror/lang-markdown": "^6.4.0",
+        "@codemirror/state": "^6.5.2",
+        "@codemirror/view": "^6.38.6",
         "@solid-primitives/event-listener": "^2.4.3",
         "@solid-primitives/scheduled": "^1.5.2",
         "@solid-primitives/timer": "^1.4.3",
         "@solidjs/router": "^0.15.3",
         "@tauri-apps/api": "^2.8.0",
+        "codemirror": "^6.0.2",
         "ky": "^1.12.0",
+        "solid-codemirror": "^2.3.1",
         "solid-js": "^1.9.9",
-        "solid-toast": "^0.5.0"
+        "solid-toast": "^0.5.0",
+        "thememirror": "^2.0.1"
     },
     "devDependencies": {
         "@eslint/js": "^9.37.0",
@@ -34,7 +41,7 @@
         "eslint-plugin-solid": "^0.14.5",
         "knip": "^5.65.0",
         "typescript": "^5.9.3",
-        "vite": "^7.1.9",
+        "vite": "^7.1.10",
         "vite-plugin-solid": "^2.11.9"
     }
 }

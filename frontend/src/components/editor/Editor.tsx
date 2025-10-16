@@ -1,12 +1,60 @@
 import "./Editor.css"
 
-import { For } from "solid-js"
+import { markdown } from "@codemirror/lang-markdown"
+import { Extension } from "@codemirror/state"
+import { EditorView } from "@codemirror/view"
+import { createCodeMirror } from "solid-codemirror"
+import { createEffect, For } from "solid-js"
 
 import { useDraggable } from "@/hooks/useDraggable"
 import editorStore from "@/store/editor"
 
+const EDITOR_BASE_SETUP: Extension = []
+
 const Editor = () => {
     const { handleMouseDown } = useDraggable()
+
+    const {
+        editorView,
+        ref: setRef,
+        createExtension,
+    } = createCodeMirror({
+        value: editorStore.state.content,
+        onValueChange: (value) => editorStore.actions.setContent(value),
+    })
+
+    // 基础主题配置
+    const baseTheme = EditorView.theme({
+        "&": {
+            textAlign: "left",
+            height: "100%",
+        },
+        ".cm-content": {
+            textAlign: "left",
+            padding: "8px 0",
+        },
+        ".cm-scroller": {
+            overflow: "auto",
+        },
+        ".cm-line": {
+            padding: "0 8px",
+        },
+        ".cm-cursor": {
+            borderLeftWidth: "2px",
+        },
+    })
+
+    // 添加扩展
+    createExtension(EDITOR_BASE_SETUP)
+    createExtension(markdown())
+    createExtension(baseTheme)
+
+    // 同步 editorView 到 store 以便外部访问
+    createEffect(() => {
+        if (editorView()) {
+            console.log("CodeMirror editor initialized")
+        }
+    })
 
     return (
         <>
@@ -31,19 +79,12 @@ const Editor = () => {
                                     }
                                 />
                             )}
-                            <textarea
-                                placeholder={
-                                    editorStore.state.mode === "create"
-                                        ? "输入话题内容..."
-                                        : "输入回复内容..."
-                                }
-                                class="editor-textarea"
-                                value={editorStore.state.content}
-                                onInput={(e) =>
-                                    editorStore.actions.setContent(
-                                        e.target.value
-                                    )
-                                }
+                            <div
+                                ref={setRef}
+                                class="editor-codemirror"
+                                style={{
+                                    "min-height": "10px",
+                                }}
                             />
                             <div class="editor-actions">
                                 <button

@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import solid from "vite-plugin-solid";
 
-// @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
 // https://vite.dev/config/
@@ -49,4 +48,9 @@ export default defineConfig(async () => ({
             ],
         },
     },
+
+    optimizeDeps: {
+        // Add both @codemirror/state and @codemirror/view to included deps to optimize
+        include: ['@codemirror/state', '@codemirror/view'],
+    }
 }));

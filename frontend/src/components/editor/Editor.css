@@ -82,6 +82,30 @@
     border: 2px solid #007bff;
 }
 
+.editor-codemirror {
+    flex: 1;
+    height: 0;
+    min-height: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.editor-codemirror .cm-editor {
+    height: 100%;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.editor-codemirror .cm-scroller {
+    overflow: auto;
+}
+
+.editor-codemirror .cm-editor.cm-focused {
+    outline: 2px solid #007bff;
+}
+
 .editor-actions {
     display: flex;
     justify-content: flex-start;
