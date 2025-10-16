@@ -23,9 +23,23 @@ const PostItem = (props: PostItemProps) => {
     const memoizedDate = createMemo(() =>
         new Date(props.post.created_at).toLocaleString()
     )
-    const userReaction = createMemo(() =>
-        memoizedReactions().find((r) => r.user_id === userState.user?.id)
-    )
+    const userReaction = createMemo(() => {
+        const uid = userState.user?.id
+        if (!uid) return undefined
+        // 单次遍历找到属于当前用户的最新 reaction，避免额外分配或排序
+        let latest: Reaction | undefined = undefined
+        let latestTs = 0
+        for (const r of memoizedReactions()) {
+            if (r.user_id !== uid) continue
+            const ts = Date.parse(r.created_at)
+            if (isNaN(ts)) continue
+            if (latest === undefined || ts > latestTs) {
+                latest = r
+                latestTs = ts
+            }
+        }
+        return latest
+    })
     const reactionIcon = createMemo(() => {
         const reaction = userReaction()
         if (reaction) {

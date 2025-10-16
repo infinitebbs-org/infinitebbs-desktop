@@ -32,7 +32,7 @@ render(
     () => (
         <>
             <Router root={App}>{routes}</Router>
-            <Toaster />
+            <Toaster position="bottom-right" gutter={8} />
         </>
     ),
     document.getElementById("root") as HTMLElement

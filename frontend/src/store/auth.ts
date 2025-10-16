@@ -47,7 +47,7 @@ export const register = async (username: string, password: string) => {
     try {
         const result = await registerApi({ username, password })
 
-        if (result.success && result.data) {
+        if (result.success) {
             toast.success("注册成功！")
             return { success: true }
         } else {
