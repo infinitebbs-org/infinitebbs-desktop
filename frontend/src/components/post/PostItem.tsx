@@ -10,6 +10,7 @@ import { reactionTypes } from "@/constants/reactions"
 import editorStore from "@/store/editor"
 import reactionPickerStore from "@/store/reactionPicker"
 import { userState } from "@/store/user"
+import { formatActivityTime, formatFullDateTime } from "@/utils/time"
 
 interface PostItemProps {
     post: Post
@@ -22,7 +23,10 @@ const PostItem = (props: PostItemProps) => {
 
     const memoizedReactions = createMemo(() => props.Reactions())
     const memoizedDate = createMemo(() =>
-        new Date(props.post.created_at).toLocaleString()
+        formatActivityTime(props.post.created_at)
+    )
+    const fullDateTime = createMemo(() =>
+        formatFullDateTime(props.post.created_at)
     )
     const userReaction = createMemo(() => {
         const uid = userState.user?.id
@@ -109,7 +113,10 @@ const PostItem = (props: PostItemProps) => {
                         </span>
                     </div>
                     <div class="post-item-meta">
-                        <span class="post-item-created-at">
+                        <span
+                            class="post-item-created-at"
+                            title={fullDateTime()}
+                        >
                             {memoizedDate()}
                         </span>
                         <span class="post-item-number">

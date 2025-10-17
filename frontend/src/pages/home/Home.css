@@ -75,18 +75,21 @@
 }
 
 .col-topic {
-    width: 58.33%; /* 14/24 */
+    width: 58.33%;
+    /* 14/24 */
 }
 
 .col-users {
-    width: 16.67%; /* 4/24 */
+    width: 16.67%;
+    /* 4/24 */
     text-align: center;
 }
 
 .col-reply,
 .col-view,
 .col-activity {
-    width: 8.33%; /* 2/24 */
+    width: 8.33%;
+    /* 2/24 */
     text-align: center;
 }
 
@@ -149,6 +152,7 @@
     justify-content: center;
     cursor: pointer;
     transition: transform 0.2s;
+    border: 1px solid #00aeff4d;
 }
 
 .reply-cell,

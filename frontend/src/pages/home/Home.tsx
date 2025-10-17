@@ -2,16 +2,46 @@ import "./Home.css"
 
 import { createEventListener } from "@solid-primitives/event-listener"
 import { debounce } from "@solid-primitives/scheduled"
+import { createTimer } from "@solid-primitives/timer"
 import { A } from "@solidjs/router"
-import { For, onMount, Show } from "solid-js"
+import { createSignal, For, onMount, Show } from "solid-js"
 
 import { loadTopics, refreshTopics, topicState } from "@/store/topic"
 import { formatViewCount } from "@/utils/format"
-import { formatActivityTime } from "@/utils/time"
+import { formatActivityTime, formatFullDateTime } from "@/utils/time"
+
+const getActivityTooltip = (
+    createdAt: string,
+    updatedAt: string,
+    postCount: number
+): string => {
+    const createdText = `创建日期: ${formatFullDateTime(createdAt)}`
+    if (postCount > 0) {
+        return `${createdText}\n最新: ${formatFullDateTime(updatedAt)}`
+    }
+    return createdText
+}
 
 const Home = () => {
     // DOM 引用
     let containerRef: HTMLDivElement | undefined
+
+    // 用于强制刷新时间显示的信号
+    const [tick, setTick] = createSignal(0)
+
+    createTimer(
+        () => {
+            setTick((prev) => prev + 1)
+        },
+        60000,
+        window.setInterval
+    )
+
+    // 响应式时间格式化函数
+    const getFormattedActivityTime = (createdAt: string) => {
+        tick() // 订阅 tick 信号以触发重新计算
+        return formatActivityTime(createdAt)
+    }
 
     onMount(() => {
         // 滚动事件处理：检测滚动到底部时加载更多
@@ -75,12 +105,12 @@ const Home = () => {
                                     </td>
                                     <td class="users-cell">
                                         <div class="user-avatars">
-                                            <div
-                                                class="user-avatar"
+                                            <img
+                                                src="https://picsum.photos/40/40"
+                                                alt={`用户 ${topic.user_id}`}
                                                 title={`用户 ${topic.user_id}`}
-                                            >
-                                                {topic.user_id}
-                                            </div>
+                                                class="user-avatar"
+                                            />
                                         </div>
                                     </td>
                                     <td class="reply-cell">
@@ -93,8 +123,17 @@ const Home = () => {
                                             {formatViewCount(topic.view_count)}
                                         </span>
                                     </td>
-                                    <td class="activity-cell">
-                                        {formatActivityTime(topic.created_at)}
+                                    <td
+                                        class="activity-cell"
+                                        title={getActivityTooltip(
+                                            topic.created_at,
+                                            topic.updated_at,
+                                            topic.post_count
+                                        )}
+                                    >
+                                        {getFormattedActivityTime(
+                                            topic.created_at
+                                        )}
                                     </td>
                                 </tr>
                             )}
