@@ -5,6 +5,7 @@ import toast from "solid-toast"
 
 import { Post } from "@/api/post"
 import { addReaction, Reaction } from "@/api/reaction"
+import MarkdownContent from "@/components/markdown/MarkdownContent"
 import { reactionTypes } from "@/constants/reactions"
 import editorStore from "@/store/editor"
 import reactionPickerStore from "@/store/reactionPicker"
@@ -117,7 +118,7 @@ const PostItem = (props: PostItemProps) => {
                     </div>
                 </div>
                 <div class="post-content">
-                    <div innerHTML={props.post.cooked} />
+                    <MarkdownContent markdown={props.post.raw} />
                 </div>
                 <div class="post-actions">
                     {props.post.user_id !== userState.user?.id && (

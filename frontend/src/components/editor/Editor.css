@@ -41,7 +41,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 20px;
     min-height: 0;
     overflow-y: auto;
 }
@@ -60,25 +59,6 @@
 }
 
 .editor-title:focus {
-    border: 2px solid #007bff;
-}
-
-.editor-textarea {
-    flex: 1;
-    height: 0;
-    min-height: 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 5px;
-    font-size: 16px;
-    line-height: 1.5;
-    outline: none;
-    resize: none;
-    margin-bottom: 10px;
-    overflow-y: auto;
-}
-
-.editor-textarea:focus {
     border: 2px solid #007bff;
 }
 
@@ -128,15 +108,4 @@
 .cancel-btn {
     background: #6c757d;
     color: white;
-}
-
-.preview-content {
-    flex: 1;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #555;
-}
-
-.preview-content p {
-    margin: 0 0 10px 0;
 }

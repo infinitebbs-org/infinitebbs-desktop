@@ -4,10 +4,12 @@ import { markdown } from "@codemirror/lang-markdown"
 import { Extension } from "@codemirror/state"
 import { EditorView } from "@codemirror/view"
 import { createCodeMirror } from "solid-codemirror"
-import { createEffect, For } from "solid-js"
+import { createEffect } from "solid-js"
 
 import { useDraggable } from "@/hooks/useDraggable"
 import editorStore from "@/store/editor"
+
+import MarkdownContent from "../markdown/MarkdownContent"
 
 const EDITOR_BASE_SETUP: Extension = []
 
@@ -104,13 +106,9 @@ const Editor = () => {
                             </div>
                         </div>
                         <div class="editor-preview">
-                            <div class="preview-content">
-                                <For
-                                    each={editorStore.state.content.split("\n")}
-                                >
-                                    {(line) => <p>{line}</p>}
-                                </For>
-                            </div>
+                            <MarkdownContent
+                                markdown={editorStore.state.content}
+                            />
                         </div>
                     </div>
                 </div>

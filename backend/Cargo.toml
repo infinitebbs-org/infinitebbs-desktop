@@ -24,6 +24,7 @@ tracing = { version = "0.1", default-features = false, features = [
     "attributes",
 ] }
 tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
+pulldown-cmark = "0.13"
 
 
 [profile.dev]
