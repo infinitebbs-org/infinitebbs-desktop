@@ -1,6 +1,7 @@
 import "./Topic.css"
 
 import { useParams } from "@solidjs/router"
+import { OverlayScrollbarsComponent } from "overlayscrollbars-solid"
 import { createMemo, createSignal, For, onMount, Show } from "solid-js"
 
 import { getPostsByTopicId, Post } from "@/api/post"
@@ -40,7 +41,11 @@ const Topic = () => {
     })
 
     return (
-        <div class="topic-page">
+        <OverlayScrollbarsComponent
+            class="topic-page"
+            options={{ scrollbars: { autoHide: "scroll" } }}
+            defer
+        >
             <ReactionPicker
                 onReactionAdd={(reaction) =>
                     setUserReactions([...userReactions(), reaction])
@@ -78,7 +83,7 @@ const Topic = () => {
                     </div>
                 </div>
             </Show>
-        </div>
+        </OverlayScrollbarsComponent>
     )
 }
 

@@ -1,4 +1,6 @@
 /* @refresh reload */
+import "overlayscrollbars/overlayscrollbars.css"
+
 import { Router } from "@solidjs/router"
 import { render } from "solid-js/web"
 import { Toaster } from "solid-toast"

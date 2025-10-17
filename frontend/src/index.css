@@ -2,6 +2,7 @@ html,
 body {
     height: 100%;
 }
+
 html,
 body,
 h1,
@@ -36,6 +37,7 @@ menu {
     margin: 0;
     padding: 0;
 }
+
 header,
 footer,
 section,
@@ -50,15 +52,18 @@ menu,
 details {
     display: block;
 }
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
 caption,
 th {
     text-align: left;
     font-weight: normal;
 }
+
 html,
 body,
 fieldset,
@@ -67,6 +72,7 @@ iframe,
 abbr {
     border: 0;
 }
+
 i,
 cite,
 em,
@@ -75,13 +81,16 @@ address,
 dfn {
     font-style: normal;
 }
+
 [hidefocus],
 summary {
     outline: 0;
 }
+
 li {
     list-style: none;
 }
+
 h1,
 h2,
 h3,
@@ -91,32 +100,39 @@ h6,
 small {
     font-size: 100%;
 }
+
 sup,
 sub {
     font-size: 83%;
 }
+
 pre,
 code,
 kbd,
 samp {
     font-family: inherit;
 }
+
 q:before,
 q:after {
     content: none;
 }
+
 textarea {
     overflow: auto;
     resize: none;
 }
+
 label,
 summary {
     cursor: default;
 }
+
 a,
 button {
     cursor: pointer;
 }
+
 h1,
 h2,
 h3,
@@ -128,6 +144,7 @@ strong,
 b {
     font-weight: bold;
 }
+
 del,
 ins,
 u,
@@ -136,6 +153,7 @@ a,
 a:hover {
     text-decoration: none;
 }
+
 body,
 textarea,
 input,
@@ -147,13 +165,16 @@ legend {
     color: #333;
     outline: 0;
 }
+
 body {
     background: #fff;
 }
+
 a,
 a:hover {
     color: #333;
 }
+
 * {
     box-sizing: border-box;
 }

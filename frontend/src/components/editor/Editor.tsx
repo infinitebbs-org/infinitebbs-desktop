@@ -3,6 +3,7 @@ import "./Editor.css"
 import { markdown } from "@codemirror/lang-markdown"
 import { Extension } from "@codemirror/state"
 import { EditorView } from "@codemirror/view"
+import { OverlayScrollbarsComponent } from "overlayscrollbars-solid"
 import { createCodeMirror } from "solid-codemirror"
 import { createEffect } from "solid-js"
 
@@ -105,11 +106,14 @@ const Editor = () => {
                                 </button>
                             </div>
                         </div>
-                        <div class="editor-preview">
+                        <OverlayScrollbarsComponent
+                            class="editor-preview"
+                            defer
+                        >
                             <MarkdownContent
                                 markdown={editorStore.state.content}
                             />
-                        </div>
+                        </OverlayScrollbarsComponent>
                     </div>
                 </div>
             )}
