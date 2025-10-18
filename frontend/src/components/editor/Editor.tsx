@@ -35,6 +35,8 @@ const Editor = () => {
         ".cm-content": {
             textAlign: "left",
             padding: "8px 0",
+            fontFamily:
+                '"Maple Mono", "LXGW WenKai", Inter, Avenir, Helvetica, Arial, sans-serif',
         },
         ".cm-scroller": {
             overflow: "auto",

@@ -6,7 +6,6 @@
 
 .sidebar {
     background: #fff;
-    padding: 4px 8px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
@@ -16,22 +15,20 @@
 .sidebar-top {
     display: flex;
     flex-direction: column;
-    gap: 4px;
 }
 
 .sidebar-bottom {
     display: flex;
     flex-direction: column;
-    gap: 4px;
 }
 
 .sidebar .user-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
     overflow: hidden;
     align-self: center;
-    border: 1px solid #00aeff4d;
+    border: 1px solid rgba(0, 174, 255, 0.3);
     box-sizing: border-box;
 }
 
@@ -52,9 +49,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    box-sizing: border-box;
 }
 
 .nav-item {
@@ -66,7 +65,8 @@
 }
 
 .nav-link.active {
-    background: #e0e7ff;
+    background: #d1f0ff;
+    border-color: rgba(30, 58, 138, 0.12);
 }
 
 .nav-item img,
@@ -86,12 +86,16 @@
     flex-direction: column;
 }
 
+/* Make top-bar flat and separated */
 .top-bar {
-    height: 24px;
+    height: 40px;
     padding: 8px;
     font-size: 18px;
     font-weight: bold;
     color: #333;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    background: #fff;
+    box-sizing: border-box;
 }
 
 .main-content {
@@ -101,9 +105,11 @@
 
 .content {
     flex: 1;
-    background: #fdf7f3;
     overflow-y: auto;
-    margin-right: 8px;
-    margin-bottom: 8px;
-    border-radius: 8px;
+    border-radius: 0;
+}
+
+/* Clear separators between sidebar sections */
+.sidebar {
+    border-right: 1px solid rgba(15, 23, 42, 0.06);
 }

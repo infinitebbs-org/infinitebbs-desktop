@@ -1,4 +1,5 @@
 /* @refresh reload */
+import "./index.css"
 import "overlayscrollbars/overlayscrollbars.css"
 
 import { Router } from "@solidjs/router"

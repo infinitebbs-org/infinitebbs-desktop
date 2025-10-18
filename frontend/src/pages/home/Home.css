@@ -23,23 +23,22 @@
     table-layout: fixed;
 }
 
-.topics-table thead {
-    top: 0;
-    z-index: 10;
-}
 
 .topics-table th {
-    padding: 12px 20px;
+    height: 39px;
+    padding: 0 12px;
     text-align: left;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 500;
     color: #666;
     border-bottom: 1px solid #e0e0e0;
+    box-sizing: border-box;
 }
 
+
 .col-topic {
-    width: 58.33%;
-    /* 14/24 */
+    width: 50%;
+    /* 12/24 */
 }
 
 .col-users {
@@ -49,10 +48,15 @@
 }
 
 .col-reply,
-.col-view,
-.col-activity {
+.col-view {
     width: 8.33%;
     /* 2/24 */
+    text-align: center;
+}
+
+.col-activity {
+    width: 16.67%;
+    /* 4/24 */
     text-align: center;
 }
 
@@ -61,85 +65,6 @@
 .topics-table th.col-view,
 .topics-table th.col-activity {
     text-align: center;
-}
-
-.topic-row {
-    border-bottom: 1px solid #f0f0f0;
-    transition: background-color 0.2s;
-}
-
-.topic-row td {
-    padding: 16px 20px;
-}
-
-.topic-cell {
-    max-width: 0;
-    width: 100%;
-    text-align: left;
-}
-
-.topic-title {
-    margin: 0 0 6px 0;
-    font-size: 15px;
-    font-weight: 500;
-    color: #333;
-    cursor: pointer;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    text-align: left;
-}
-
-.topic-title:hover {
-    color: #1890ff;
-}
-
-.users-cell {
-    text-align: center;
-    vertical-align: middle;
-}
-
-.user-avatars {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 4px;
-}
-
-.user-avatar {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.2s;
-    border: 1px solid #00aeff4d;
-}
-
-.reply-cell,
-.view-cell,
-.activity-cell {
-    text-align: center;
-    vertical-align: middle;
-}
-
-.reply-cell .stat-number {
-    font-size: 18px;
-    font-weight: 600;
-    color: #fa8c16;
-}
-
-.view-cell .stat-number {
-    font-size: 18px;
-    font-weight: 600;
-    color: #52c41a;
-}
-
-.activity-cell {
-    font-size: 13px;
-    color: #999;
 }
 
 .loading {

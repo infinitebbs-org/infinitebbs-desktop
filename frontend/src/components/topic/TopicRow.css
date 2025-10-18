@@ -1,0 +1,82 @@
+.topic-row {
+    height: 80px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+}
+
+.topic-row:hover {
+    background: #f4f6fb;
+}
+
+.topic-row td {
+    padding: 16px 20px;
+}
+
+.topic-cell {
+    max-width: 0;
+    width: 100%;
+    text-align: left;
+}
+
+.topic-title {
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    text-decoration: none;
+}
+
+.topic-title:hover {
+    color: #1890ff;
+}
+
+.users-cell {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.topic-row-user-avatars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: 1px solid #00aeff4d;
+}
+
+.reply-cell,
+.view-cell,
+.activity-cell {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.reply-cell .stat-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: #959595;
+}
+
+.view-cell .stat-number {
+    font-size: 18px;
+    color: #999999;
+}
+
+.activity-cell {
+    font-size: 16px;
+    color: #999;
+}

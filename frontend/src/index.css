@@ -161,7 +161,7 @@ button,
 select,
 keygen,
 legend {
-    font: 12px/1.14 Microsoft YaHei, arial, \5b8b\4f53;
+    font: 12px/1.14 "Maple Mono", "LXGW WenKai", Inter, Avenir, Helvetica, Arial, sans-serif;
     color: #333;
     outline: 0;
 }
@@ -177,4 +177,11 @@ a:hover {
 
 * {
     box-sizing: border-box;
+}
+
+.no-select {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
 }

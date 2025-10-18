@@ -3,10 +3,12 @@ import "./Topic.css"
 import { useParams } from "@solidjs/router"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-solid"
 import { createMemo, createSignal, For, onMount, Show } from "solid-js"
+import toast from "solid-toast"
 
 import { getPostsByTopicId, Post } from "@/api/post"
 import { getReactionsForTopic, Reaction } from "@/api/reaction"
 import { viewTopic } from "@/api/topic"
+import Loading from "@/components/loading/Loading"
 import PostItem from "@/components/post/PostItem"
 import ReactionPicker from "@/components/reaction/ReactionPicker"
 
@@ -16,7 +18,6 @@ const Topic = () => {
 
     const [posts, setPosts] = createSignal<Post[]>([])
     const [isLoading, setIsLoading] = createSignal(true)
-    const [error, setError] = createSignal<string | null>(null)
     const [userReactions, setUserReactions] = createSignal<Reaction[]>([])
 
     onMount(async () => {
@@ -30,11 +31,11 @@ const Topic = () => {
                 const reactions = await getReactionsForTopic(topicId())
                 setUserReactions(reactions)
             } else {
-                setError("加载帖子失败")
+                toast.error("加载帖子失败")
             }
         } catch (err) {
             console.error("获取帖子详情失败:", err)
-            setError("网络错误，请稍后重试")
+            toast.error("网络错误，请稍后重试")
         } finally {
             setIsLoading(false)
         }
@@ -51,13 +52,7 @@ const Topic = () => {
                     setUserReactions([...userReactions(), reaction])
                 }
             />
-            <Show when={isLoading()}>
-                <div class="loading">加载中...</div>
-            </Show>
-            <Show when={error()}>
-                <div class="error">{error()}</div>
-            </Show>
-            <Show when={!isLoading() && !error()}>
+            <Show when={!isLoading()} fallback={<Loading />}>
                 <div class="posts-container">
                     <div class="posts-list">
                         <For each={posts()}>

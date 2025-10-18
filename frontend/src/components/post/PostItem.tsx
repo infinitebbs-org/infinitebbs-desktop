@@ -1,6 +1,6 @@
 import "./PostItem.css"
 
-import { createMemo } from "solid-js"
+import { createMemo, createResource } from "solid-js"
 import toast from "solid-toast"
 
 import { Post } from "@/api/post"
@@ -10,6 +10,7 @@ import { reactionTypes } from "@/constants/reactions"
 import editorStore from "@/store/editor"
 import reactionPickerStore from "@/store/reactionPicker"
 import { userState } from "@/store/user"
+import userProfileStore from "@/store/userProfile"
 import { formatActivityTime, formatFullDateTime } from "@/utils/time"
 
 interface PostItemProps {
@@ -20,6 +21,12 @@ interface PostItemProps {
 
 const PostItem = (props: PostItemProps) => {
     let reactionBtnRef: HTMLDivElement | undefined
+
+    // 获取用户信息（使用全局缓存）
+    const [userProfile] = createResource(
+        () => props.post.user_id,
+        (userId) => userProfileStore.actions.fetchUserProfile(userId)
+    )
 
     const memoizedReactions = createMemo(() => props.Reactions())
     const memoizedDate = createMemo(() =>
@@ -98,18 +105,22 @@ const PostItem = (props: PostItemProps) => {
 
     return (
         <div class="post-item">
-            <div class="post-avatar">
-                <img
-                    src="https://picsum.photos/100/100"
-                    alt="用户头像"
-                    class="post-item-user-avatar"
-                />
+            <div class="post-left">
+                <div class="post-avatar">
+                    <img
+                        src="https://picsum.photos/100/100"
+                        alt="用户头像"
+                        class="post-item-user-avatar"
+                    />
+                </div>
             </div>
+
             <div class="post-main">
                 <div class="post-header">
-                    <div class="post-item-user-info">
-                        <span class="post-item-username">
-                            用户 {props.post.user_id}
+                    <div class="post-item-username">
+                        <span>
+                            {userProfile()?.name ||
+                                `用户 ${props.post.user_id}`}
                         </span>
                     </div>
                     <div class="post-item-meta">
