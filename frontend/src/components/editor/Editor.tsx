@@ -3,6 +3,7 @@ import "./Editor.css"
 import { markdown } from "@codemirror/lang-markdown"
 import { Extension } from "@codemirror/state"
 import { EditorView } from "@codemirror/view"
+import { useNavigate } from "@solidjs/router"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-solid"
 import { createCodeMirror } from "solid-codemirror"
 import { createEffect } from "solid-js"
@@ -16,6 +17,7 @@ const EDITOR_BASE_SETUP: Extension = []
 
 const Editor = () => {
     const { handleMouseDown } = useDraggable()
+    const navigate = useNavigate()
 
     const {
         editorView,
@@ -68,7 +70,16 @@ const Editor = () => {
                     class="editor-overlay"
                     style={{ height: editorStore.state.height + "px" }}
                 >
-                    <div class="editor-handle" onMouseDown={handleMouseDown} />
+                    <div
+                        class="editor-handle no-select"
+                        onMouseDown={handleMouseDown}
+                    >
+                        <img
+                            src="/ellipsis.svg"
+                            alt="拖动手柄"
+                            class="editor-handle-icon"
+                        />
+                    </div>
                     <div class="editor-content">
                         <div class="editor-input">
                             {editorStore.state.mode === "create" && (
@@ -84,17 +95,17 @@ const Editor = () => {
                                     }
                                 />
                             )}
-                            <div
-                                ref={setRef}
-                                class="editor-codemirror"
-                                style={{
-                                    "min-height": "10px",
-                                }}
-                            />
-                            <div class="editor-actions">
+                            <div ref={setRef} class="editor-codemirror" />
+                            <div class="editor-actions no-select">
                                 <button
                                     class="publish-btn"
-                                    onClick={editorStore.actions.publish}
+                                    onClick={async () => {
+                                        const result =
+                                            await editorStore.actions.publish()
+                                        if (result.success && result.topicId) {
+                                            navigate(`/topic/${result.topicId}`)
+                                        }
+                                    }}
                                 >
                                     {editorStore.state.mode === "create"
                                         ? "创建话题"
@@ -108,14 +119,13 @@ const Editor = () => {
                                 </button>
                             </div>
                         </div>
-                        <OverlayScrollbarsComponent
-                            class="editor-preview"
-                            defer
-                        >
-                            <MarkdownContent
-                                markdown={editorStore.state.content}
-                            />
-                        </OverlayScrollbarsComponent>
+                        <div class="editor-preview">
+                            <OverlayScrollbarsComponent defer>
+                                <MarkdownContent
+                                    markdown={editorStore.state.content}
+                                />
+                            </OverlayScrollbarsComponent>
+                        </div>
                     </div>
                 </div>
             )}

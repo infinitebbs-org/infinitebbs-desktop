@@ -49,7 +49,7 @@ const editorStore = {
         setTitle: (title: string) => setEditorState("title", title),
         setContent: (content: string) => setEditorState("content", content),
         setHeight: (height: number) => setEditorState("height", height),
-        publish: async () => {
+        publish: async (): Promise<{ success: boolean; topicId?: number }> => {
             try {
                 if (editorState.mode === 'create') {
                     const data: CreateTopicRequest = {
@@ -59,8 +59,11 @@ const editorStore = {
                     const resp = await createTopic(data)
                     if (resp.success) {
                         toast.success("话题发布成功")
+                        editorStore.actions.closeEditor()
+                        return { success: true, topicId: resp.data?.id }
                     } else {
                         toast.error(resp.message || "话题发布失败")
+                        return { success: false }
                     }
                 } else if (editorState.mode === 'reply' && editorState.topicId !== undefined) {
                     const data: CreatePostRequest = {
@@ -70,14 +73,18 @@ const editorStore = {
                     const resp = await replyToTopic(editorState.topicId, data)
                     if (resp.success) {
                         toast.success("回复发布成功")
+                        editorStore.actions.closeEditor()
+                        return { success: true }
                     } else {
                         toast.error(resp.message || "回复发布失败")
+                        return { success: false }
                     }
                 }
-                editorStore.actions.closeEditor()
+                return { success: false }
             } catch (error) {
                 console.error("发布失败:", error)
                 toast.error("发布失败")
+                return { success: false }
             }
         },
     },

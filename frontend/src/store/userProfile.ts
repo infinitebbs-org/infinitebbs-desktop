@@ -3,7 +3,7 @@ import { makeCache } from "@solid-primitives/resource"
 import { getUserProfile, UserProfile } from "@/api/user"
 
 
-const CACHE_DURATION = 30 * 60 * 1000 // 30分钟缓存
+const CACHE_DURATION = 60 * 60 * 1000 // 1小时缓存
 
 // 创建带缓存的用户信息获取器
 const [userProfileFetcher] = makeCache(

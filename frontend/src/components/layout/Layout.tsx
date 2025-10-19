@@ -11,7 +11,7 @@ const Layout = (props: RouterProps) => {
         <div class="layout">
             <aside class="sidebar" role="navigation" aria-label="主导航">
                 <div class="sidebar-top">
-                    <div class="user-avatar" title="用户头像">
+                    <div class="user-avatar no-select" title="用户头像">
                         <A href="/profile">
                             <img
                                 src="https://picsum.photos/100/100"
@@ -19,7 +19,7 @@ const Layout = (props: RouterProps) => {
                             />
                         </A>
                     </div>
-                    <div class="nav-item" title="话题">
+                    <div class="nav-item no-select" title="话题">
                         <A
                             href="/"
                             class="nav-link"
@@ -30,19 +30,19 @@ const Layout = (props: RouterProps) => {
                         </A>
                     </div>
 
-                    <div class="nav-item" title="裁决">
+                    <div class="nav-item no-select" title="裁决">
                         <img src="/law.svg" class="nav-icon" />
                     </div>
                 </div>
                 <div class="sidebar-bottom">
                     <div
-                        class="nav-item"
+                        class="nav-item no-select"
                         onClick={() => editorStore.actions.openEditor("create")}
                         title="新建"
                     >
                         <img src="/edit.svg" class="nav-icon" />
                     </div>
-                    <div class="nav-item" title="设置">
+                    <div class="nav-item no-select" title="设置">
                         <A
                             href="/settings"
                             class="nav-link"
