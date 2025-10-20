@@ -1,6 +1,6 @@
 import "./PostItem.css"
 
-import { createMemo, createResource } from "solid-js"
+import { createMemo, createResource, createSignal } from "solid-js"
 import toast from "solid-toast"
 
 import { Post } from "@/api/post"
@@ -21,6 +21,8 @@ interface PostItemProps {
 
 const PostItem = (props: PostItemProps) => {
     let reactionBtnRef: HTMLDivElement | undefined
+
+    const [showMoreActions, setShowMoreActions] = createSignal(false)
 
     // 获取用户信息（使用全局缓存）
     const [userProfile] = createResource(
@@ -118,21 +120,21 @@ const PostItem = (props: PostItemProps) => {
             <div class="post-main">
                 <div class="post-header">
                     <div class="post-item-username">
-                        <span>
+                        <div>
                             {userProfile()?.name ||
                                 `用户 ${props.post.user_id}`}
-                        </span>
+                        </div>
                     </div>
                     <div class="post-item-meta">
-                        <span
+                        <div
                             class="post-item-created-at"
                             title={fullDateTime()}
                         >
                             {memoizedDate()}
-                        </span>
-                        <span class="post-item-number">
+                        </div>
+                        <div class="post-item-number">
                             #{props.post.post_number}
-                        </span>
+                        </div>
                     </div>
                 </div>
                 <div class="post-content">
@@ -142,7 +144,7 @@ const PostItem = (props: PostItemProps) => {
                     {props.post.user_id !== userState.user?.id && (
                         <div
                             ref={reactionBtnRef}
-                            class="post-action-btn"
+                            class="post-action-btn no-select"
                             title="点赞"
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
@@ -165,8 +167,51 @@ const PostItem = (props: PostItemProps) => {
                             />
                         </div>
                     )}
+                    {!showMoreActions() && (
+                        <div
+                            class="post-action-btn more-btn no-select"
+                            title="显示更多"
+                            onClick={() => setShowMoreActions(true)}
+                        >
+                            <img
+                                src="/more.svg"
+                                alt="更多"
+                                class="action-icon"
+                            />
+                        </div>
+                    )}
+                    {showMoreActions() && (
+                        <div
+                            class="post-action-btn flag-btn no-select"
+                            title="举报"
+                            onClick={() => {
+                                toast.success("举报成功")
+                            }}
+                        >
+                            <img
+                                src="/flag.svg"
+                                alt="举报"
+                                class="action-icon"
+                            />
+                        </div>
+                    )}
+                    {showMoreActions() && (
+                        <div
+                            class="post-action-btn bookmark-btn no-select"
+                            title="收藏"
+                            onClick={() => {
+                                toast.success("收藏成功")
+                            }}
+                        >
+                            <img
+                                src="/bookmark.svg"
+                                alt="收藏"
+                                class="action-icon"
+                            />
+                        </div>
+                    )}
                     <div
-                        class="post-action-btn reply-btn"
+                        class="post-action-btn reply-btn no-select"
                         title="回复"
                         onClick={() =>
                             editorStore.actions.openEditor(
@@ -176,7 +221,11 @@ const PostItem = (props: PostItemProps) => {
                             )
                         }
                     >
-                        <img src="/reply.svg" alt="回复" class="action-icon" />
+                        <img
+                            src="/reply.svg"
+                            alt="回复"
+                            class="action-icon no-select"
+                        />
                     </div>
                 </div>
             </div>

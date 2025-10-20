@@ -1,4 +1,5 @@
 .editor-overlay {
+    /* overlay / container */
     position: fixed;
     bottom: 0;
     left: 0;
@@ -10,9 +11,22 @@
     display: flex;
     flex-direction: column;
     min-height: 240px;
+    /* 初始状态在视口外 (向下)，并且不可见以避免可达性问题 */
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 260ms cubic-bezier(.22, 1, .36, 1), opacity 160ms ease-in;
+}
+
+/* 打开时的状态 - 平滑上滑并接收事件 */
+.editor-overlay.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .editor-handle {
+    /* handle */
     height: 10px;
     background: #f0f0f0;
     cursor: row-resize;
@@ -32,6 +46,7 @@
 }
 
 .editor-content {
+    /* layout */
     flex: 1;
     display: flex;
     flex-direction: row;
@@ -39,6 +54,7 @@
 }
 
 .editor-input {
+    /* left column: input/editor */
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -46,6 +62,7 @@
 }
 
 .editor-preview {
+    /* right column: preview */
     width: 50%;
     padding: 8px;
     box-sizing: border-box;
@@ -54,6 +71,8 @@
 }
 
 .editor-title {
+    /* title input */
+    border: none;
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
 
@@ -72,6 +91,7 @@
 }
 
 .editor-codemirror {
+    /* CodeMirror container */
     flex: 1;
     height: 0;
     min-height: 0;
@@ -117,6 +137,7 @@
 
 
 .editor-actions {
+    /* actions row */
     display: flex;
     justify-content: flex-start;
     border-right: 1px solid #ccc;

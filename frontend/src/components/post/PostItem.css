@@ -38,7 +38,7 @@
     line-height: 32px;
     border-right: 1px solid rgba(15, 23, 42, 0.06);
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 700;
     color: #333;
 }
 
@@ -110,11 +110,14 @@
 .action-icon {
     width: 20px;
     height: 20px;
-    object-fit: contain;
+    /* object-fit: contain; */
     filter: grayscale(100%);
 }
 
 .action-icon.active,
-.reply-btn:hover .action-icon {
+.reply-btn:hover .action-icon,
+.more-btn:hover .action-icon,
+.flag-btn:hover .action-icon,
+.bookmark-btn:hover .action-icon {
     filter: none;
 }

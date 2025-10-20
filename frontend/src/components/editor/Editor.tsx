@@ -65,70 +65,71 @@ const Editor = () => {
 
     return (
         <>
-            {editorStore.state.isOpen && (
+            <div
+                class="editor-overlay"
+                classList={{ open: editorStore.state.isOpen }}
+                style={{ height: editorStore.state.height + "px" }}
+                aria-hidden={editorStore.state.isOpen ? "false" : "true"}
+            >
                 <div
-                    class="editor-overlay"
-                    style={{ height: editorStore.state.height + "px" }}
+                    class="editor-handle no-select"
+                    onMouseDown={handleMouseDown}
                 >
-                    <div
-                        class="editor-handle no-select"
-                        onMouseDown={handleMouseDown}
-                    >
-                        <img
-                            src="/ellipsis.svg"
-                            alt="拖动手柄"
-                            class="editor-handle-icon"
-                        />
-                    </div>
-                    <div class="editor-content">
-                        <div class="editor-input">
-                            {editorStore.state.mode === "create" && (
-                                <input
-                                    type="text"
-                                    placeholder="输入标题"
-                                    class="editor-title"
-                                    value={editorStore.state.title}
-                                    onInput={(e) =>
-                                        editorStore.actions.setTitle(
-                                            e.target.value
-                                        )
+                    <img
+                        src="/ellipsis.svg"
+                        alt="拖动手柄"
+                        class="editor-handle-icon"
+                    />
+                </div>
+                <div class="editor-content">
+                    <div class="editor-input">
+                        {editorStore.state.mode === "create" && (
+                            <input
+                                type="text"
+                                placeholder="输入标题"
+                                class="editor-title"
+                                value={editorStore.state.title}
+                                onInput={(e) =>
+                                    editorStore.actions.setTitle(e.target.value)
+                                }
+                            />
+                        )}
+                        <div ref={setRef} class="editor-codemirror" />
+                        <div class="editor-actions no-select">
+                            <button
+                                class="publish-btn"
+                                onClick={async () => {
+                                    const result =
+                                        await editorStore.actions.publish()
+                                    if (result.success && result.topicId) {
+                                        navigate(`/topic/${result.topicId}`)
                                     }
-                                />
-                            )}
-                            <div ref={setRef} class="editor-codemirror" />
-                            <div class="editor-actions no-select">
-                                <button
-                                    class="publish-btn"
-                                    onClick={async () => {
-                                        const result =
-                                            await editorStore.actions.publish()
-                                        if (result.success && result.topicId) {
-                                            navigate(`/topic/${result.topicId}`)
-                                        }
-                                    }}
-                                >
-                                    {editorStore.state.mode === "create"
-                                        ? "创建话题"
-                                        : "回复"}
-                                </button>
-                                <button
-                                    class="cancel-btn"
-                                    onClick={editorStore.actions.closeEditor}
-                                >
-                                    舍弃
-                                </button>
-                            </div>
+                                }}
+                            >
+                                {editorStore.state.mode === "create"
+                                    ? "创建话题"
+                                    : "回复"}
+                            </button>
+                            <button
+                                class="cancel-btn"
+                                onClick={(e) => {
+                                    e.currentTarget.blur()
+                                    editorStore.actions.closeEditor()
+                                }}
+                            >
+                                舍弃
+                            </button>
                         </div>
-                        <div class="editor-preview">
-                            <OverlayScrollbarsComponent defer>
-                                <MarkdownContent
-                                    markdown={editorStore.state.content}
-                                />
-                            </OverlayScrollbarsComponent>
-                        </div>
+                    </div>
+                    <div class="editor-preview">
+                        <OverlayScrollbarsComponent defer>
+                            <MarkdownContent
+                                markdown={editorStore.state.content}
+                            />
+                        </OverlayScrollbarsComponent>
                     </div>
                 </div>
-            )}
+            </div>
         </>
     )
 }
