@@ -72,7 +72,6 @@ const Editor = () => {
                 class="editor-overlay"
                 classList={{ open: editorStore.state.isOpen }}
                 style={{ height: editorStore.state.height + "px" }}
-                aria-hidden={editorStore.state.isOpen ? "false" : "true"}
             >
                 <div
                     class="editor-handle no-select"
@@ -114,7 +113,7 @@ const Editor = () => {
                                             value={editorStore.state.tags}
                                             onInput={(e) =>
                                                 editorStore.actions.setTags(
-                                                    e.target.value
+                                                    e.target.value.split(",")
                                                 )
                                             }
                                         />
@@ -126,10 +125,11 @@ const Editor = () => {
                         <div class="editor-actions no-select">
                             <button
                                 class="publish-btn"
-                                onClick={async () => {
+                                onClick={async (e) => {
                                     const result =
                                         await editorStore.actions.publish()
                                     if (result.success && result.topicId) {
+                                        e.currentTarget.blur()
                                         navigate(`/topic/${result.topicId}`)
                                     }
                                 }}

@@ -26,35 +26,36 @@ const CategorySelector = (props: CategorySelectorProps) => {
                 }
             >
                 <img
-                    src={getCategoryIcon(props.value)}
+                    src={`/${getCategoryIcon(props.value)}`}
                     class="category-dropdown-item-icon"
                 />
                 <span class="category-dropdown-item-text">
                     {get_category() || "请选择分类"}
                 </span>
             </div>
-            {showDropdown() && (
-                <div class="category-dropdown no-select">
-                    <For each={categories}>
-                        {(option) => (
-                            <div
-                                onClick={() => {
-                                    props.onChange(option.id)
-                                    setShowDropdown(false)
-                                }}
-                            >
-                                <img
-                                    src={option.icon}
-                                    class="category-dropdown-item-icon"
-                                />
-                                <span class="category-dropdown-item-text">
-                                    {option.name}
-                                </span>
-                            </div>
-                        )}
-                    </For>
-                </div>
-            )}
+            <div
+                class="category-dropdown no-select"
+                classList={{ open: showDropdown() }}
+            >
+                <For each={categories}>
+                    {(option) => (
+                        <div
+                            onClick={() => {
+                                props.onChange(option.id)
+                                setShowDropdown(false)
+                            }}
+                        >
+                            <img
+                                src={`/${option.icon}`}
+                                class="category-dropdown-item-icon"
+                            />
+                            <span class="category-dropdown-item-text">
+                                {option.name}
+                            </span>
+                        </div>
+                    )}
+                </For>
+            </div>
         </div>
     )
 }

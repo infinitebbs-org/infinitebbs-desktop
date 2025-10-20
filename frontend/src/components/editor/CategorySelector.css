@@ -20,6 +20,28 @@
     max-height: 200px;
     overflow-y: auto;
     box-sizing: border-box;
+    /* 初始状态：隐藏 */
+    display: none;
+    /* 设置变换原点为顶部，使其从上边界展开 */
+    transform-origin: top;
+}
+
+/* 打开时的状态 - 从上边界展开 */
+.category-dropdown.open {
+    display: block;
+    animation: slideDown 260ms cubic-bezier(.22, 1, .36, 1);
+}
+
+@keyframes slideDown {
+    from {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scaleY(1);
+        opacity: 1;
+    }
 }
 
 .category-dropdown div {

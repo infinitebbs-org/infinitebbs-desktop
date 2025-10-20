@@ -1,6 +1,14 @@
 export const categories = [
     {
         id: 1,
+        name: "谈笑风生",
+        description: "谈笑风生，分享知识和经验",
+        topic_count: 0,
+        slug: "talk",
+        icon: "water.svg"
+    },
+    {
+        id: 2,
         name: "前沿快讯",
         description: "最新的技术动态和趋势",
         topic_count: 0,

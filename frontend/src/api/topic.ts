@@ -4,8 +4,8 @@ import { api, R } from "."
 export interface CreateTopicRequest {
     title: string
     content: string
-    category: number
-    tags: string
+    category_id: number
+    tags: string[]
 }
 
 // 创建主题的响应接口
@@ -27,6 +27,7 @@ export interface CreatePostResponse {
 export interface Topic {
     id: number
     user_id: number
+    category_id: number
     title: string
     post_count: number
     view_count: number

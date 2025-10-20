@@ -1,6 +1,7 @@
 import { createStore } from "solid-js/store"
 
 import { getTopics, Topic } from "@/api/topic"
+import { sleep } from "@/utils/scheduler"
 
 import { userState } from "./user"
 
@@ -115,10 +116,13 @@ const checkForNewTopics = async () => {
     }
 }
 
-export const initTopics = () => {
+export const initTopics = async () => {
     // 加载第一页话题
-    loadTopics()
+    await loadTopics()
 
-    // 启动定时检查新话题（每10秒）
-    window.setInterval(checkForNewTopics, 10000)
+    // 启动定时检查新话题（递归调度，避免重叠）
+    while (true) {
+        await sleep(10000) // 每10秒检查一次
+        checkForNewTopics()
+    }
 }
