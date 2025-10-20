@@ -90,6 +90,37 @@
     border-right: 1px solid #007bff;
 }
 
+.editor-meta-row {
+    /* meta row: category and tags */
+    display: flex;
+}
+
+.editor-meta-input-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.editor-meta-input-wrapper:focus-within {
+    border-right: 1px solid #007bff;
+}
+
+.editor-meta-input {
+    /* category and tags input */
+    width: 100%;
+    border: none;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+    font-size: 14px;
+    outline: none;
+    box-shadow: none;
+    line-height: 1.5;
+    box-sizing: border-box;
+    position: relative;
+
+    cursor: pointer;
+}
+
 .editor-codemirror {
     /* CodeMirror container */
     flex: 1;

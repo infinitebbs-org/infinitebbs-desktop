@@ -8,6 +8,8 @@ interface EditorState {
     mode: 'create' | 'reply'
     title: string
     content: string
+    category: number
+    tags: string
     height: number
     topicId?: number
     replyId?: number
@@ -18,6 +20,8 @@ const [editorState, setEditorState] = createStore<EditorState>({
     mode: 'create',
     title: "",
     content: "",
+    category: 1,
+    tags: "",
     height: 300,
 })
 
@@ -27,6 +31,8 @@ const resetEditorState = () => {
         mode: 'create',
         title: "",
         content: "",
+        category: 1,
+        tags: "",
         topicId: undefined,
         replyId: undefined,
     })
@@ -48,6 +54,8 @@ const editorStore = {
         },
         setTitle: (title: string) => setEditorState("title", title),
         setContent: (content: string) => setEditorState("content", content),
+        setCategory: (category: number) => setEditorState("category", category),
+        setTags: (tags: string) => setEditorState("tags", tags),
         setHeight: (height: number) => setEditorState("height", height),
         publish: async (): Promise<{ success: boolean; topicId?: number }> => {
             try {
@@ -55,6 +63,8 @@ const editorStore = {
                     const data: CreateTopicRequest = {
                         title: editorState.title,
                         content: editorState.content,
+                        category: editorState.category,
+                        tags: editorState.tags,
                     }
                     const resp = await createTopic(data)
                     if (resp.success) {

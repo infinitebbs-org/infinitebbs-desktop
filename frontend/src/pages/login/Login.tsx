@@ -4,6 +4,7 @@ import { useNavigate } from "@solidjs/router"
 import { createSignal, onMount, Show } from "solid-js"
 import toast from "solid-toast"
 
+import Loading from "@/components/loading/Loading"
 import { getAccessToken, login, logout, register } from "@/store/auth"
 import { initTopics } from "@/store/topic"
 import { fetchUserInfo, userState } from "@/store/user"
@@ -88,15 +89,7 @@ const Login = () => {
 
     return (
         <div class="auth-page">
-            <Show
-                when={!isCheckingAuth()}
-                fallback={
-                    <div class="loading-container">
-                        <div class="loading-spinner" />
-                        <p>正在验证登录状态...</p>
-                    </div>
-                }
-            >
+            <Show when={!isCheckingAuth()} fallback={<Loading />}>
                 {/* 顶部选择器 */}
                 <div class="auth-mode-selector">
                     <button

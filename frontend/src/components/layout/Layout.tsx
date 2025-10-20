@@ -2,8 +2,9 @@ import "./Layout.css"
 
 import { RouterProps } from "@solidjs/router"
 import { A } from "@solidjs/router"
-import { JSX } from "solid-js"
+import { For, JSX } from "solid-js"
 
+import { categories } from "@/store/categories"
 import editorStore from "@/store/editor"
 
 const Layout = (props: RouterProps) => {
@@ -30,9 +31,19 @@ const Layout = (props: RouterProps) => {
                         </A>
                     </div>
 
-                    <div class="nav-item no-select" title="裁决">
-                        <img src="/law.svg" class="nav-icon" />
-                    </div>
+                    <For each={categories}>
+                        {(category) => (
+                            <div
+                                class="nav-item no-select"
+                                title={category.name}
+                            >
+                                <img
+                                    src={`/${category.icon}`}
+                                    class="nav-icon"
+                                />
+                            </div>
+                        )}
+                    </For>
                 </div>
                 <div class="sidebar-bottom">
                     <div

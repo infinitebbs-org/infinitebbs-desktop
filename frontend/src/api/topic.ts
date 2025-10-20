@@ -4,6 +4,8 @@ import { api, R } from "."
 export interface CreateTopicRequest {
     title: string
     content: string
+    category: number
+    tags: string
 }
 
 // 创建主题的响应接口
@@ -37,6 +39,17 @@ export interface GetTopicsResponse {
     total: number
 }
 
+// 分类接口
+export interface Category {
+    id: number
+    name: string
+    description: string
+    topic_count: number
+    slug: string
+}
+
+export type GetCategoriesResponse = Category[]
+
 
 
 // 创建主题的 API 函数
@@ -57,4 +70,9 @@ export const replyToTopic = async (topicId: number, data: CreatePostRequest): Pr
 // 查看主题的 API 函数
 export const viewTopic = async (topicId: number): Promise<R> => {
     return await api.post(`topic/${topicId}/view`).json<R>()
+}
+
+// 获取分类列表的 API 函数
+export const getCategories = async (): Promise<R<GetCategoriesResponse>> => {
+    return await api.get("category").json<R<GetCategoriesResponse>>()
 }

@@ -12,6 +12,7 @@ import { useDraggable } from "@/hooks/useDraggable"
 import editorStore from "@/store/editor"
 
 import MarkdownContent from "../markdown/MarkdownContent"
+import CategorySelector from "./CategorySelector"
 
 const EDITOR_BASE_SETUP: Extension = []
 
@@ -63,6 +64,8 @@ const Editor = () => {
         }
     })
 
+    let metaRowRef
+
     return (
         <>
             <div
@@ -84,15 +87,40 @@ const Editor = () => {
                 <div class="editor-content">
                     <div class="editor-input">
                         {editorStore.state.mode === "create" && (
-                            <input
-                                type="text"
-                                placeholder="输入标题"
-                                class="editor-title"
-                                value={editorStore.state.title}
-                                onInput={(e) =>
-                                    editorStore.actions.setTitle(e.target.value)
-                                }
-                            />
+                            <>
+                                <input
+                                    type="text"
+                                    placeholder="输入标题"
+                                    class="editor-title"
+                                    value={editorStore.state.title}
+                                    onInput={(e) =>
+                                        editorStore.actions.setTitle(
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                                <div class="editor-meta-row" ref={metaRowRef}>
+                                    <CategorySelector
+                                        value={editorStore.state.category}
+                                        onChange={
+                                            editorStore.actions.setCategory
+                                        }
+                                    />
+                                    <div class="editor-meta-input-wrapper">
+                                        <input
+                                            type="text"
+                                            placeholder="标签"
+                                            class="editor-meta-input"
+                                            value={editorStore.state.tags}
+                                            onInput={(e) =>
+                                                editorStore.actions.setTags(
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                            </>
                         )}
                         <div ref={setRef} class="editor-codemirror" />
                         <div class="editor-actions no-select">
