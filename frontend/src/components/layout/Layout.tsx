@@ -37,10 +37,17 @@ const Layout = (props: RouterProps) => {
                                 class="nav-item no-select"
                                 title={category.name}
                             >
-                                <img
-                                    src={`/${category.icon}`}
-                                    class="nav-icon"
-                                />
+                                <A
+                                    href={`/${category.slug}`}
+                                    class="nav-link"
+                                    activeClass="active"
+                                    end={true}
+                                >
+                                    <img
+                                        src={`/${category.icon}`}
+                                        class="nav-icon"
+                                    />
+                                </A>
                             </div>
                         )}
                     </For>

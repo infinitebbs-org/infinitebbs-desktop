@@ -9,12 +9,14 @@ import { userState } from "@/store/user"
 
 import Editor from "./components/editor/Editor"
 import Layout from "./components/layout/Layout"
+import { start_tick_timer } from "./utils/time"
 
 const App = (props: RouterProps) => {
     let main = getCurrentWebviewWindow()
 
     onMount(async () => {
         main.show()
+        start_tick_timer()
     })
 
     return (

@@ -1,16 +1,16 @@
 import "./TopicRow.css"
 
 import { A } from "@solidjs/router"
-import { createResource } from "solid-js"
+import { createMemo, createResource } from "solid-js"
 
 import { Topic } from "@/api/topic"
+import { categories } from "@/store/categories"
 import userProfileActions from "@/store/userProfile"
 import { formatViewCount } from "@/utils/format"
 import { formatActivityTime, formatFullDateTime } from "@/utils/time"
 
 interface TopicRowProps {
     topic: Topic
-    tick: number
 }
 
 const getActivityTooltip = (
@@ -31,6 +31,10 @@ const TopicRow = (props: TopicRowProps) => {
         userProfileActions.actions.fetchUserProfile
     )
 
+    const category = createMemo(() =>
+        categories.find((c) => c.id === props.topic.category_id)
+    )
+
     const getFormattedActivityTime = (
         createdAt: string,
         updatedAt: string,
@@ -49,6 +53,18 @@ const TopicRow = (props: TopicRowProps) => {
                 <A href={`/topic/${props.topic.id}`} class="topic-title">
                     {props.topic.title}
                 </A>
+                <div class="category-info">
+                    <div class="category-badge">
+                        <img
+                            src={`/${category()?.icon || "layers.svg"}`}
+                            alt={category()?.name}
+                            class="category-icon"
+                        />
+                        <span class="category-name">
+                            {category()?.name || "未知分类"}
+                        </span>
+                    </div>
+                </div>
             </td>
             <td class="users-cell no-select">
                 <div class="topic-row-user-avatars">

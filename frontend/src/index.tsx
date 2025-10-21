@@ -8,6 +8,7 @@ import { Toaster } from "solid-toast"
 
 import App from "./App"
 import Home from "./pages/home/Home"
+import News from "./pages/news/News"
 import Profile from "./pages/profile/Profile"
 import Settings from "./pages/settings/Settings"
 import Topic from "./pages/topic/Topic"
@@ -16,6 +17,10 @@ const routes = [
     {
         path: "/",
         component: Home,
+    },
+    {
+        path: "/news",
+        component: News,
     },
     {
         path: "/profile",

@@ -1,4 +1,19 @@
+import { createSignal } from "solid-js"
+
+// 全局 tick 信号，用于强制刷新时间显示
+export const [tick, setTick] = createSignal(0)
+
+export const start_tick_timer = () => {
+    // 启动计时器
+    setTick((prev) => prev + 1)
+    window.setTimeout(() => {
+        start_tick_timer()
+    }, 10000)
+}
+
 export const formatActivityTime = (createdAt: string): string => {
+    // 依赖全局 tick 以强制刷新
+    tick()
     const now = new Date()
     const created = new Date(createdAt)
     const diff = now.getTime() - created.getTime()

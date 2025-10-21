@@ -10,7 +10,6 @@ interface TopicState {
     pendingTopics: Map<number, Topic>
     currentPage: number
     isLoading: boolean
-    hasMore: boolean
     newTopicsCount: number
 }
 
@@ -19,7 +18,6 @@ const [topicState, setTopicState] = createStore<TopicState>({
     pendingTopics: new Map(),
     currentPage: 1,
     isLoading: false,
-    hasMore: true,
     newTopicsCount: 0,
 })
 
@@ -28,7 +26,7 @@ export { topicState }
 
 // 加载更多话题
 export const loadTopics = async () => {
-    if (topicState.isLoading || !topicState.hasMore) return
+    if (topicState.isLoading) return
 
     setTopicState("isLoading", true)
     try {
@@ -36,14 +34,11 @@ export const loadTopics = async () => {
         if (resp.success) {
             setTopicState("topics", prev => [...prev, ...resp.data!.topics])
         }
-        if (resp.data!.topics.length === 0) {
-            setTopicState("hasMore", false)
-        } else {
+        if (resp.data!.topics.length !== 0) {
             setTopicState("currentPage", prev => prev + 1)
         }
     } catch (error) {
         console.error("加载话题失败:", error)
-        setTopicState("hasMore", false)
     } finally {
         setTopicState("isLoading", false)
     }
