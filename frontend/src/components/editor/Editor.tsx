@@ -64,6 +64,19 @@ const Editor = () => {
         }
     })
 
+    // 当编辑器关闭时，清空 CodeMirror 的内容
+    createEffect(() => {
+        if (!editorStore.state.isOpen && editorView()) {
+            editorView().dispatch({
+                changes: {
+                    from: 0,
+                    to: editorView().state.doc.length,
+                    insert: "",
+                },
+            })
+        }
+    })
+
     let metaRowRef
 
     return (

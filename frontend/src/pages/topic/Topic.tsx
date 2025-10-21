@@ -2,7 +2,7 @@ import "./Topic.css"
 
 import { useParams } from "@solidjs/router"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-solid"
-import { createMemo, createSignal, For, onMount, Show } from "solid-js"
+import { createEffect, createMemo, createSignal, For, Show } from "solid-js"
 import toast from "solid-toast"
 
 import { getPostsByTopicId, Post } from "@/api/post"
@@ -20,7 +20,8 @@ const Topic = () => {
     const [isLoading, setIsLoading] = createSignal(true)
     const [userReactions, setUserReactions] = createSignal<Reaction[]>([])
 
-    onMount(async () => {
+    const loadTopicData = async () => {
+        setIsLoading(true)
         try {
             const response = await getPostsByTopicId(topicId())
             if (response.success && response.data) {
@@ -39,6 +40,12 @@ const Topic = () => {
         } finally {
             setIsLoading(false)
         }
+    }
+
+    createEffect(() => {
+        // 当 topicId 变化时重新加载数据
+        topicId()
+        loadTopicData()
     })
 
     return (

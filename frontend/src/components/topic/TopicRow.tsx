@@ -50,7 +50,7 @@ const TopicRow = (props: TopicRowProps) => {
                     {props.topic.title}
                 </A>
             </td>
-            <td class="users-cell">
+            <td class="users-cell no-select">
                 <div class="topic-row-user-avatars">
                     <img
                         src="https://picsum.photos/40/40"
@@ -64,16 +64,16 @@ const TopicRow = (props: TopicRowProps) => {
                     />
                 </div>
             </td>
-            <td class="reply-cell">
+            <td class="reply-cell no-select">
                 <span class="stat-number">{props.topic.post_count}</span>
             </td>
-            <td class="view-cell">
+            <td class="view-cell no-select">
                 <span class="stat-number">
                     {formatViewCount(props.topic.view_count)}
                 </span>
             </td>
             <td
-                class="activity-cell"
+                class="activity-cell no-select"
                 title={getActivityTooltip(
                     props.topic.created_at,
                     props.topic.updated_at,
