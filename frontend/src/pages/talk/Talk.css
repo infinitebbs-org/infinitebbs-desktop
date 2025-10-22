@@ -1,0 +1,87 @@
+.talk {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+
+.talk-refresh-header {
+    cursor: pointer;
+    background-color: #d1f0ff;
+    text-align: center;
+    font-weight: 500;
+    color: #1890ff;
+    transition: background-color 0.2s;
+}
+
+.talk-refresh-header:hover {
+    background-color: #e6f7ff;
+}
+
+.talk-topics-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+
+.talk-topics-table th {
+    height: 39px;
+    padding: 0 20px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    color: #666;
+    border-bottom: 1px solid #e0e0e0;
+    box-sizing: border-box;
+}
+
+
+.talk-col-topic {
+    width: 50%;
+    /* 12/24 */
+}
+
+.talk-col-users {
+    width: 16.67%;
+    /* 4/24 */
+    text-align: center;
+}
+
+.talk-col-reply,
+.talk-col-view {
+    width: 8.33%;
+    /* 2/24 */
+    text-align: center;
+}
+
+.talk-col-activity {
+    width: 16.67%;
+    /* 4/24 */
+    text-align: center;
+}
+
+.talk-topics-table th.talk-col-users,
+.talk-topics-table th.talk-col-reply,
+.talk-topics-table th.talk-col-view,
+.talk-topics-table th.talk-col-activity {
+    text-align: center;
+}
+
+.talk-loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+/* OverlayScrollbars 自定义样式 - 移除圆角 */
+.talk .os-scrollbar-handle {
+    border-radius: 0;
+}
+
+.talk .os-scrollbar {
+    border-radius: 0;
+}
+
+.talk .os-scrollbar-track {
+    border-radius: 0;
+}

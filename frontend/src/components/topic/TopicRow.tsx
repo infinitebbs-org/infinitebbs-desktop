@@ -54,7 +54,7 @@ const TopicRow = (props: TopicRowProps) => {
                     {props.topic.title}
                 </A>
                 <div class="category-info">
-                    <div class="category-badge">
+                    <div class="category-badge no-select">
                         <img
                             src={`/${category()?.icon || "layers.svg"}`}
                             alt={category()?.name}

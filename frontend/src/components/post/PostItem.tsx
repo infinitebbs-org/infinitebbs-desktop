@@ -108,7 +108,7 @@ const PostItem = (props: PostItemProps) => {
     return (
         <div class="post-item">
             <div class="post-left">
-                <div class="post-avatar">
+                <div class="post-avatar no-select">
                     <img
                         src="https://picsum.photos/100/100"
                         alt="用户头像"
@@ -125,7 +125,7 @@ const PostItem = (props: PostItemProps) => {
                                 `用户 ${props.post.user_id}`}
                         </div>
                     </div>
-                    <div class="post-item-meta">
+                    <div class="post-item-meta no-select">
                         <div
                             class="post-item-created-at"
                             title={fullDateTime()}

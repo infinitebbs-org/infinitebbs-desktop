@@ -10,7 +10,6 @@ interface TopicState {
     pendingTopics: Map<number, Topic>
     currentPage: number
     isLoading: boolean
-    newTopicsCount: number
 }
 
 const [topicState, setTopicState] = createStore<TopicState>({
@@ -18,7 +17,6 @@ const [topicState, setTopicState] = createStore<TopicState>({
     pendingTopics: new Map(),
     currentPage: 1,
     isLoading: false,
-    newTopicsCount: 0,
 })
 
 // 导出状态
@@ -56,7 +54,6 @@ export const refreshTopics = async () => {
 
         // 清空 pendingTopics 和计数
         setTopicState("pendingTopics", new Map())
-        setTopicState("newTopicsCount", 0)
     } catch (error) {
         console.error("刷新话题失败:", error)
     } finally {
@@ -104,7 +101,6 @@ const checkForNewTopics = async () => {
 
             // 更新 pendingTopics
             setTopicState("pendingTopics", newPendingMap)
-            setTopicState("newTopicsCount", newPendingMap.size)
         }
     } catch (error) {
         console.error("检查新话题失败:", error)

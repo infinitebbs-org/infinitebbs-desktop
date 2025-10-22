@@ -2,12 +2,15 @@ import "./Home.css"
 
 import { debounce } from "@solid-primitives/scheduled"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-solid"
-import { For, Show } from "solid-js"
+import { createMemo, For, Show } from "solid-js"
 
 import TopicRow from "@/components/topic/TopicRow"
 import { loadTopics, refreshTopics, topicState } from "@/store/topic"
 
 const Home = () => {
+    // 计算新话题数量（所有分类）
+    const newTopicsCount = createMemo(() => topicState.pendingTopics.size)
+
     // 滚动事件处理：检测滚动到底部时加载更多
     const debouncedLoadTopics = debounce(loadTopics, 200)
     const handleScroll = (instance: any) => {
@@ -32,7 +35,7 @@ const Home = () => {
             <table class="topics-table">
                 <thead>
                     <Show
-                        when={topicState.newTopicsCount > 0}
+                        when={newTopicsCount() > 0}
                         fallback={
                             <tr>
                                 <th class="col-topic no-select">话题</th>
@@ -49,8 +52,7 @@ const Home = () => {
                                 class="refresh-header"
                                 onClick={refreshTopics}
                             >
-                                查看 {topicState.newTopicsCount}{" "}
-                                个新的或更新的话题
+                                查看 {newTopicsCount()} 个新的或更新的话题
                             </th>
                         </tr>
                     </Show>

@@ -60,6 +60,10 @@ const editorStore = {
         publish: async (): Promise<{ success: boolean; topicId?: number }> => {
             try {
                 if (editorState.mode === 'create') {
+                    if (editorState.title.length > 50) {
+                        toast.error("标题长度不能超过50个字符")
+                        return { success: false }
+                    }
                     const data: CreateTopicRequest = {
                         title: editorState.title,
                         content: editorState.content,

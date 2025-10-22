@@ -76,6 +76,7 @@
 
 .markdown-content li {
     margin-bottom: 0.25em;
+    list-style: inherit;
 }
 
 .markdown-content li>p {
