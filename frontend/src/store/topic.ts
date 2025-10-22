@@ -8,43 +8,18 @@ import { userState } from "./user"
 interface TopicState {
     topics: Topic[]
     pendingTopics: Map<number, Topic>
-    currentPage: number
-    isLoading: boolean
 }
 
 const [topicState, setTopicState] = createStore<TopicState>({
     topics: [],
     pendingTopics: new Map(),
-    currentPage: 1,
-    isLoading: false,
 })
 
 // 导出状态
-export { topicState }
-
-// 加载更多话题
-export const loadTopics = async () => {
-    if (topicState.isLoading) return
-
-    setTopicState("isLoading", true)
-    try {
-        const resp = await getTopics(topicState.currentPage)
-        if (resp.success) {
-            setTopicState("topics", prev => [...prev, ...resp.data!.topics])
-        }
-        if (resp.data!.topics.length !== 0) {
-            setTopicState("currentPage", prev => prev + 1)
-        }
-    } catch (error) {
-        console.error("加载话题失败:", error)
-    } finally {
-        setTopicState("isLoading", false)
-    }
-}
+export { setTopicState, topicState }
 
 // 刷新话题 - 用户手动触发，合并 pendingTopics 到 topics
 export const refreshTopics = async () => {
-    setTopicState("isLoading", true)
     try {
         // 将 pendingTopics 合并到 topics 中
         setTopicState("topics", prev => {
@@ -56,8 +31,6 @@ export const refreshTopics = async () => {
         setTopicState("pendingTopics", new Map())
     } catch (error) {
         console.error("刷新话题失败:", error)
-    } finally {
-        setTopicState("isLoading", false)
     }
 }
 
@@ -108,9 +81,6 @@ const checkForNewTopics = async () => {
 }
 
 export const initTopics = async () => {
-    // 加载第一页话题
-    await loadTopics()
-
     // 启动定时检查新话题（递归调度，避免重叠）
     while (true) {
         await sleep(10000) // 每10秒检查一次

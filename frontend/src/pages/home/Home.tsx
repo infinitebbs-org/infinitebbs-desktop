@@ -1,29 +1,69 @@
 import "./Home.css"
 
-import { debounce } from "@solid-primitives/scheduled"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-solid"
-import { createMemo, For, Show } from "solid-js"
+import { createMemo, createSignal, For, onMount, Show } from "solid-js"
 
+import { getTopics } from "@/api/topic"
+import SmallLoading from "@/components/loading/SmallLoading"
 import TopicRow from "@/components/topic/TopicRow"
-import { loadTopics, refreshTopics, topicState } from "@/store/topic"
+import { refreshTopics, setTopicState, topicState } from "@/store/topic"
 
 const Home = () => {
+    const [currentPage, setCurrentPage] = createSignal(1)
+    const [isLoading, setIsLoading] = createSignal(false)
+    let lastScrollTop = 0
+    let canTrigger = true
+
     // 计算新话题数量（所有分类）
     const newTopicsCount = createMemo(() => topicState.pendingTopics.size)
 
-    // 滚动事件处理：检测滚动到底部时加载更多
-    const debouncedLoadTopics = debounce(loadTopics, 200)
+    // 加载更多话题
+    const loadTopics = async () => {
+        if (isLoading()) return
+
+        setIsLoading(true)
+        try {
+            const resp = await getTopics(currentPage())
+            if (resp.success) {
+                setTopicState("topics", (prev) => {
+                    const existingIds = new Set(prev.map((t) => t.id))
+                    const newTopics = resp.data!.topics.filter(
+                        (t) => !existingIds.has(t.id)
+                    )
+                    return [...prev, ...newTopics]
+                })
+                if (resp.data!.topics.length !== 0) {
+                    setCurrentPage((prev) => prev + 1)
+                }
+            }
+        } catch (error) {
+            console.error("加载话题失败:", error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     const handleScroll = (instance: any) => {
         const viewport = instance.elements().viewport
         if (viewport) {
-            if (
-                viewport.scrollTop + viewport.clientHeight >=
-                viewport.scrollHeight - 100
-            ) {
-                debouncedLoadTopics()
+            const currentScrollTop = viewport.scrollTop
+            if (currentScrollTop > lastScrollTop && canTrigger) {
+                if (
+                    viewport.scrollTop + viewport.clientHeight >=
+                    viewport.scrollHeight - 100
+                ) {
+                    loadTopics()
+                    canTrigger = false
+                    setTimeout(() => (canTrigger = true), 500)
+                }
             }
+            lastScrollTop = currentScrollTop
         }
     }
+
+    onMount(() => {
+        loadTopics()
+    })
 
     return (
         <OverlayScrollbarsComponent
@@ -63,8 +103,8 @@ const Home = () => {
                     </For>
                 </tbody>
             </table>
-            <Show when={topicState.isLoading}>
-                <div class="loading">加载中...</div>
+            <Show when={isLoading()}>
+                <SmallLoading />
             </Show>
         </OverlayScrollbarsComponent>
     )

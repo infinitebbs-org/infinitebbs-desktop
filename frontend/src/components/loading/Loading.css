@@ -45,3 +45,10 @@
         opacity: 0.5;
     }
 }
+
+.small-loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}

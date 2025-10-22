@@ -67,12 +67,6 @@
     text-align: center;
 }
 
-.talk-loading {
-    text-align: center;
-    padding: 20px;
-    color: #666;
-}
-
 /* OverlayScrollbars 自定义样式 - 移除圆角 */
 .talk .os-scrollbar-handle {
     border-radius: 0;

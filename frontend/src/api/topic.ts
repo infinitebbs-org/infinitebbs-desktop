@@ -59,8 +59,9 @@ export const createTopic = async (data: CreateTopicRequest): Promise<R<CreateTop
 }
 
 // 获取主题列表的 API 函数
-export const getTopics = async (page: number): Promise<R<GetTopicsResponse>> => {
-    return await api.get(`topic/page/${page}`).json<R<GetTopicsResponse>>()
+export const getTopics = async (page: number, categoryId?: number): Promise<R<GetTopicsResponse>> => {
+    const url = categoryId ? `topic/page/${page}?category_id=${categoryId}` : `topic/page/${page}`;
+    return await api.get(url).json<R<GetTopicsResponse>>()
 }
 
 // 回复主题的 API 函数
